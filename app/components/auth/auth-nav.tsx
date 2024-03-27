@@ -7,7 +7,7 @@ const AuthNav = () => {
   const [handleToggle, setHandleToggle] = useState(false);
 
   return (
-    <header className="w-full flex items-center justify-between p-4">
+    <header className="w-full flex items-center justify-between p-4 bg-[#000]">
       <h1>
         <Link href="/dashboard">AI Service</Link>
       </h1>
@@ -25,6 +25,9 @@ const AuthNav = () => {
             </li>
             <li className="p-2 bg-[#111] hover:bg-[#333]">
               <Link href="/sessions">Session</Link>
+            </li>
+            <li className="p-2 bg-[#111] hover:bg-[#333]">
+              <Link href="/assistant">Assistant</Link>
             </li>
             <li className="p-2 bg-[#111] hover:bg-[#333]">
               <Link href="/faucet">Faucet</Link>
