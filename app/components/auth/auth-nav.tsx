@@ -21,10 +21,10 @@ const AuthNav = () => {
         {handleToggle && (
           <ul className="absolute w-[200px] top-[30px] right-0 bg-[#333] border-2">
             <li className="p-2 bg-[#111] hover:bg-[#333]">
-              <Link href="/">Service</Link>
+              <Link href="/service">Service</Link>
             </li>
             <li className="p-2 bg-[#111] hover:bg-[#333]">
-              <Link href="/">Session</Link>
+              <Link href="/sessions">Session</Link>
             </li>
             <li className="p-2 bg-[#111] hover:bg-[#333]">
               <Link href="/">Faucet</Link>
