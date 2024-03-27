@@ -1,10 +1,10 @@
+
+import LoginMetaForm from "@/app/components/auth/login-meta-form";
 import Link from "next/link";
 import React from "react";
 
 
-const Page = () => {
-
-    const ethereum = typeof window !== 'undefined' ? window.ethereum : null;
+const Page = async () => {
 
 
 
@@ -41,10 +41,8 @@ const Page = () => {
 
 
     
-    <div className="absolute top-[-60px] right-0 w-[230px] bg-[#222] border-2 p-2 flex gap-2 items-center justify-center flex-col drop-shadow-lg">
-        <h2 className="text-[13px] font-bold uppercase">🦊 Oh you have metamask ꃕ </h2>
-        <button className="bg-[#111] p-2 font-bold text-[12px] uppercase rounded-md drop-shadow-lg">Sign in</button>
-    </div>
+    {/* Client MEta */}
+    <LoginMetaForm />
 
     </section>
   );
