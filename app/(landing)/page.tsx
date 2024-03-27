@@ -27,6 +27,19 @@ export default function Home() {
 
       </header>
 
+
+      <div className="w-full h-[320px] p-3 bg-[#333] flex items-center justify-center">
+        <div className="text-center"> 
+          <h2 className="text-2xl font-bold capitalize">Tired of Looking for thing?</h2>
+          <p className="text-sm text-gray-500">Get started today with your own assistant</p>
+        </div>
+      </div>
+
+      <section className="p-4">
+        <p className="text-center text-sm">Get your situated with web3 quick and easy. Once connected you will be able connect to the app seemsly and use your bot easily.</p>
+      </section>
+      
+
     </main>
   );
 }
