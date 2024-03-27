@@ -27,7 +27,7 @@ const AuthNav = () => {
               <Link href="/sessions">Session</Link>
             </li>
             <li className="p-2 bg-[#111] hover:bg-[#333]">
-              <Link href="/">Faucet</Link>
+              <Link href="/faucet">Faucet</Link>
             </li>
             <li className="p-2 bg-[#111] hover:bg-[#333]">
               <Link href="/settings">Settings</Link>

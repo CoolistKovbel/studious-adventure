@@ -35,7 +35,7 @@ const ClientWrapper = () => {
   }, [botId]);
 
   return (
-    <div className="h-[720px] overflow-auto flex items-center justify-center gap-4 flex-col md:flex-row">
+    <div className="h-[720px] w-full overflow-auto flex items-center justify-center gap-4 flex-col md:flex-row">
       {/* Side bar */}
       <div className="w-full md:w-[25%] h-full bg-[#333] ">
         <h2 className="text-xl font-bold p-2 underline">lyubTHEBEST1</h2>
@@ -60,6 +60,8 @@ const ClientWrapper = () => {
           </button>
         </div>
       </div>
+
+      {/* Content */}
 
       {!botId && (
         <div className="w-full md:w-[60%] h-full bg-[#333]">
@@ -175,8 +177,6 @@ const ClientWrapper = () => {
           <h2>edit bot</h2>
         </div>
       )}
-
-      {/* Content */}
     </div>
   );
 };
