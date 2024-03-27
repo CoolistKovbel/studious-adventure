@@ -395,7 +395,105 @@ const Page = () => {
 
               {currentSessionType === "SCRAPE" && (
                 <div className="bg-[#222] p-4">
-                  <h2>Scrape Client</h2>
+                  <div>
+                    <header className="flex items-center justify-around mb-2">
+                      <p className="text-sm text-yellow-500">
+                        Currently Scrapping <span>http://google.com</span>
+                      </p>
+
+                      <form>
+                        <label htmlFor="scrapeUrl">
+                          <input
+                            type="text"
+                            placeholder="enter scrape url"
+                            className="w-full bg-[#000] text-gray-500 p-2"
+                          />
+                        </label>
+
+                        <button className="bg-black text-white font-bold py-2 px-4 rounded-md mt-2 float-right">
+                          scrape
+                        </button>
+                      </form>
+                    </header>
+
+                    <hr />
+
+                    <div className="mt-4">
+                      {/* Message chat */}
+                      <div className="flex w-full h-[410px] bg-[#222] p-2 flex-col space-y-5 drop-shadow-lg  mb-2 overflow-auto">
+                        {messageData.length !== 0 ? (
+                          <div>
+                            {messageData.map((item: any) => (
+                              <div key={crypto.randomUUID()}>
+                                {/* Sender 1 message */}
+                                <div className="flex items-end justify-end w-full">
+                                  <div className="bg-[#000] text-white py-2 px-4 rounded-lg min-w-[30%] max-w-[60%] self-end">
+                                    <div className="flex justify-between">
+                                      <p className="text-sm font-bold">
+                                        {item.from.username as string}
+                                      </p>
+                                      <p className="text-xs text-gray-500">
+                                        10:00 AM
+                                      </p>
+                                    </div>
+
+                                    <p className="text-base">{item.question}</p>
+                                  </div>
+
+                                  <Image
+                                    src={item.from.image}
+                                    alt="Avatar 1"
+                                    width={80}
+                                    height={80}
+                                    className="rounded-full ml-2"
+                                  />
+                                </div>
+
+                                {/* Sender 2 message */}
+                                <div className="flex items-end  w-full">
+                                  <Image
+                                    src={item.to.image}
+                                    alt="Avatar 2"
+                                    width={80}
+                                    height={80}
+                                    className="rounded-full mr-2"
+                                  />
+                                  <div className="bg-white text-black py-2 px-4 rounded-lg min-w-[30%] max-w-[60%]">
+                                    <div className="flex justify-between">
+                                      <p className="text-sm font-bold">
+                                        {item.to.name}
+                                      </p>
+                                      <p className="text-xs text-gray-500">
+                                        10:05 AM
+                                      </p>
+                                    </div>
+                                    <p className="text-base">{item.answer}</p>
+                                  </div>
+                                </div>
+                              </div>
+                            ))}
+                          </div>
+                        ) : (
+                          <div className="w-full h-full flex items-center flex-col justify-center">
+                            <h2>no chat please chat to make conversation</h2>
+                          </div>
+                        )}
+                      </div>
+
+                      {/* input chat */}
+                      <form>
+                        <textarea
+                          name="userScrapeQuery"
+                          id="userScrapeQuery"
+                          className="w-full h-full bg-transparent border border-white rounded-md p-2 focus:outline-none resize-none"
+                          placeholder="Type your message..."
+                        ></textarea>
+                        <button className="bg-black text-white font-bold py-2 px-4 rounded-md mt-2">
+                          submit
+                        </button>
+                      </form>
+                    </div>
+                  </div>
                 </div>
               )}
             </article>
