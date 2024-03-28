@@ -15,6 +15,7 @@ const AuthNav = ({currrentSession}:AuthNavProps) => {
 
   return (
     <header className="w-full flex items-center justify-between p-4 bg-[#000]">
+
       <h1>
         <Link href="/dashboard">AI Service</Link>
       </h1>
@@ -25,8 +26,10 @@ const AuthNav = ({currrentSession}:AuthNavProps) => {
           {currentSess.username}
         </span>
 
+        
+
         {handleToggle && (
-          <ul className="absolute w-[200px] top-[30px] right-0 bg-[#333] border-2">
+          <ul className="absolute w-[200px] top-[30px] right-0 bg-[#333] border-2 z-[60]">
             <li className="p-2 bg-[#111] hover:bg-[#333]">
               <Link href="/service">Service</Link>
             </li>
@@ -47,6 +50,7 @@ const AuthNav = ({currrentSession}:AuthNavProps) => {
             </li>
           </ul>
         )}
+
       </nav>
 
     </header>

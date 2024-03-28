@@ -6,6 +6,7 @@ import UserEdit from "../auth/user-edit";
 import { useModal } from "@/app/hooks/use-modal-store";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
+import CreateToggle from "../create-toggle";
 
 interface ClientWrapperProps {
   currentUser: any;
@@ -16,28 +17,30 @@ const ClientWrapper = ({ currentUser, userBots }: ClientWrapperProps) => {
   const [botId, setBotId] = useState("");
   const searchParams = useSearchParams();
   const selectedBotRef = useRef<any>(null);
+
   const botSessions = [
     {
       name: "throk",
-      purpose: "smartest math teacher that gives the formula after every problem",
-      image: "/bbS.png"
+      purpose:
+        "smartest math teacher that gives the formula after every problem",
+      image: "/bbS.png",
     },
     {
       name: "brok",
       purpose: "A friendly companion to help with setting up a node server",
-      image: "/bbS.png"
+      image: "/bbS.png",
     },
     {
       name: "derp",
       purpose: "Helps curiate new recipies with different food items",
-      image: "/bbS.png"
+      image: "/bbS.png",
     },
     {
       name: "derp",
       purpose: "Helps curiate new recipies with different food items",
-      image: "/bbS.png"
+      image: "/bbS.png",
     },
-  ]
+  ];
 
   const { onOpen } = useModal();
 
@@ -85,6 +88,8 @@ const ClientWrapper = ({ currentUser, userBots }: ClientWrapperProps) => {
     gg();
   }, [botId, searchParams]);
 
+  console.log(bots.length > 0, "there is abots");
+
   return (
     <div className="h-[740px] w-full flex items-center justify-center gap-4 flex-col md:flex-row">
       {/* Side bar */}
@@ -117,7 +122,7 @@ const ClientWrapper = ({ currentUser, userBots }: ClientWrapperProps) => {
         <div className="w-full md:w-[60%] h-full bg-[#333]">
           <div className="flex">
             <div className="bg-[#113] p-3 w-[300px] flex items-center justify-center flex-col gap-4 drop-shadow-lg">
-              {user.image || user.image.length > 0 ? (
+              {user.image ? (
                 <div className="w-[100px] h-[100px] relative">
                   <Image src={user.image} alt="user profile image" fill />
                 </div>
@@ -176,14 +181,13 @@ const ClientWrapper = ({ currentUser, userBots }: ClientWrapperProps) => {
 
       {botId === "bot" && (
         <div className="w-full md:w-[60%] h-full bg-[#333] ">
-
           <h2 className="p-2 text-2xl font-bold">Edit Bot</h2>
 
-          <div className="w-full bg-[#222] h-fit drop-shadow-lg flex justify-between p-4">
-            {/* Bot select */}
-            <div className="bg-[#111] font-bold w-[20%] p-4">
-              {!!bots ? (
-                <div>
+          <div className="w-full bg-[#222] h-fit drop-shadow-lg p-4">
+            {bots.length > 0 ? (
+              <div className="flex justify-between">
+                {/* Bot select */}
+                <div className="bg-[#111] font-bold w-[20%] p-4">
                   {bots.map((item: any) => (
                     <Link
                       key={crypto.randomUUID()}
@@ -194,80 +198,94 @@ const ClientWrapper = ({ currentUser, userBots }: ClientWrapperProps) => {
                     </Link>
                   ))}
                 </div>
-              ) : (
-                <div>
-                  <h2>no</h2>
-                </div>
-              )}
-            </div>
 
-            {/* Bot description */}
-            <div className="bg-[#111] p-2 w-[70%] h-fit p-10">
-                
-                <header className="flex items-center justify-between w-[80%] mx-auto">
-
-                  <div className="w-[70%]">
-                    <h2 className="text-2xl font-bold">bot chatlie</h2>
-                    <p className="text-md text-gray-500">
-                      Lorem, ipsum dolor sit amet consectetur adipisicing elit.
-                      Quos, assumenda rerum eos numquam molestias pariatur fugiat
-                      iusto facere ab repudiandae inventore, at ratione voluptatum
-                      consequuntur, debitis recusandae tempore! Corrupti, commodi?
-                    </p>
-                  </div>
-
-                  <div className="w-[200px] h-[200px] relative">
-                    <Image src="/bbS.png" alt="bot image" fill />
-                  </div>
-
-                </header>
-
-                <div className="p-4 ">
-
-                  <div>
-                    <h3 className="text-xl font-bold">Stats</h3>
-                    <div className="flex items-center justify-around w-full p-4">
-                      <p className="bg-[#000] p-2 rounded-md ">Total Sessions: <span className="p-1 bg-yellow-500 text-black rounded-sm">12</span></p>
-                      <p className="bg-[#000] p-2 rounded-md ">Total Searches: <span className="p-1 bg-yellow-500 text-black rounded-sm">122</span></p>
-                      <p className="bg-[#000] p-2 rounded-md ">Total Image Generated: <span className="p-1 bg-yellow-500 text-black rounded-sm">12</span></p>
+                {/* Bot description */}
+                <div className="bg-[#111] p-2 w-[70%] h-fit p-10">
+                  <header className="flex items-center justify-between w-[80%] mx-auto">
+                    <div className="w-[70%]">
+                      <h2 className="text-2xl font-bold">bot chatlie</h2>
+                      <p className="text-md text-gray-500">
+                        Lorem, ipsum dolor sit amet consectetur adipisicing
+                        elit. Quos, assumenda rerum eos numquam molestias
+                        pariatur fugiat iusto facere ab repudiandae inventore,
+                        at ratione voluptatum consequuntur, debitis recusandae
+                        tempore! Corrupti, commodi?
+                      </p>
                     </div>
-                  </div>
 
-                  <div className="w-full h-[400px] bg-[#555] p-4">
+                    <div className="w-[200px] h-[200px] relative">
+                      <Image src="/bbS.png" alt="bot image" fill />
+                    </div>
+                  </header>
 
-                    <h3 className="text-xl font-bold mb-2">Recent sessions</h3>
+                  <div className="p-4 ">
+                    <div>
+                      <h3 className="text-xl font-bold">Stats</h3>
+                      <div className="flex items-center justify-around w-full p-4">
+                        <p className="bg-[#000] p-2 rounded-md ">
+                          Total Sessions:{" "}
+                          <span className="p-1 bg-yellow-500 text-black rounded-sm">
+                            12
+                          </span>
+                        </p>
+                        <p className="bg-[#000] p-2 rounded-md ">
+                          Total Searches:{" "}
+                          <span className="p-1 bg-yellow-500 text-black rounded-sm">
+                            122
+                          </span>
+                        </p>
+                        <p className="bg-[#000] p-2 rounded-md ">
+                          Total Image Generated:{" "}
+                          <span className="p-1 bg-yellow-500 text-black rounded-sm">
+                            12
+                          </span>
+                        </p>
+                      </div>
+                    </div>
 
-                    <div className="w-full h-[90%] bg-[#111] p-4 overflow-auto flex flex-col gap-2 ">
-                      {
-                        botSessions.map((item:any) => (
-                          <div key={crypto.randomUUID()} className="flex items-center justify-around bg-[#444] relative">
+                    <div className="w-full h-[400px] bg-[#555] p-4">
+                      <h3 className="text-xl font-bold mb-2">
+                        Recent sessions
+                      </h3>
 
+                      <div className="w-full h-[90%] bg-[#111] p-4 overflow-auto flex flex-col gap-2 ">
+                        {botSessions.map((item: any) => (
+                          <div
+                            key={crypto.randomUUID()}
+                            className="flex items-center justify-around bg-[#444] relative"
+                          >
                             <div className="flex items-center flex-col justify-center w-[20%]">
-                              <Image src={item.image} alt="hate my life" width={100} height={100} />
-                              <h2  className="font-bold text-xl">{item.name}</h2>
+                              <Image
+                                src={item.image}
+                                alt="hate my life"
+                                width={100}
+                                height={100}
+                              />
+                              <h2 className="font-bold text-xl">{item.name}</h2>
                             </div>
 
                             <p className="w-[80%] text-sm">{item.purpose}</p>
 
-
-                            <Link href="/sessions" className="absolute text-sm p-1 bg-[#222] font-bold  bottom-0 right-0 hover:bg-[#111] rounded-sm">view session</Link>
-
+                            <Link
+                              href="/sessions"
+                              className="absolute text-sm p-1 bg-[#222] font-bold  bottom-0 right-0 hover:bg-[#111] rounded-sm"
+                            >
+                              view session
+                            </Link>
                           </div>
-                        ))
-                      }
+                        ))}
+                      </div>
                     </div>
-
                   </div>
-
-
                 </div>
-
-
-            </div>
-
-
+              </div>
+            ) : (
+              <div className="p-2 w-full">
+                <h2>No bot?</h2>
+                <CreateToggle hasBot={bots} />
+              </div>
+            )}
           </div>
-
         </div>
       )}
     </div>

@@ -76,6 +76,8 @@ export const metaLogin = async (
     if (!userExist) return "sorry metaccount not connected";
     if (userAddress !== userExist.metaAddress) return "Sorry address not right";
 
+    // verify signature dumbass
+
     return "success";
   } catch (error) {
     console.log(error);

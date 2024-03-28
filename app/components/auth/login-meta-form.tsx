@@ -10,13 +10,13 @@ interface LoginMetaFormProps {
   msg: string;
 }
 
-const LoginMetaForm = ({msg}: LoginMetaFormProps) => {
+const LoginMetaForm = ({ msg }: LoginMetaFormProps) => {
   const [metaAccount, setMetaAccount] = useState<any>("");
   const [state, dispatch] = useFormState(metaLogin, undefined);
-  const mess = msg as string
+  const mess = msg as string;
 
   const signInWithMetamask = async () => {
-    if (typeof window !== 'undefined') {
+    if (typeof window !== "undefined") {
       const formData = new FormData();
       const provider = new ethers.providers.Web3Provider(window.ethereum);
       const signer = provider.getSigner();
@@ -31,19 +31,12 @@ const LoginMetaForm = ({msg}: LoginMetaFormProps) => {
       }
     }
   };
-  
 
   useEffect(() => {
     const xx = async () => {
       const ethAccount = await getEthereumAccount();
-
-      console.log(ethAccount, "nmothing");
       setMetaAccount(ethAccount);
     };
-
-
-    console.log(state,"de current state")
-
 
     xx();
   }, [state]);
@@ -55,7 +48,7 @@ const LoginMetaForm = ({msg}: LoginMetaFormProps) => {
           <h2 className="text-[13px] font-bold uppercase">
             🦊 Oh you have metamask ꃕ{" "}
           </h2>
-          {state && (<p>{state}</p>)}
+          {state && <p>{state}</p>}
           <button
             className="bg-[#111] p-2 font-bold text-[12px] uppercase rounded-md drop-shadow-lg"
             onClick={signInWithMetamask}

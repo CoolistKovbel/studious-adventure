@@ -6,7 +6,6 @@ const Page = async () => {
   const session = await getSession();
   const userBot = await grabUserBots(session?.userId as string);
   
-  console.log(session);
 
   return (
     <main className="w-full min-h-screen bg-[#222] flex items-center justify-center">
