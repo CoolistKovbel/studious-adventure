@@ -1,11 +1,17 @@
 import ClientWrapper from "@/app/components/settings/client-wrapper";
-import React from "react";
+import { getSession } from "@/app/lib/actions";
 
-const Page = () => {
+
+const Page = async () => {
+  
+  const session = await getSession()
+
+  console.log(session)
+
   return (
     <main className="w-full min-h-screen bg-[#222] flex items-center justify-center">
       {/* Possible client wrapper */}
-      <ClientWrapper />
+      <ClientWrapper currentUser={JSON.stringify(session)} />
     </main>
   );
 };

@@ -2,8 +2,15 @@
 
 import Image from "next/image";
 import { useState, useEffect } from "react";
+import UserEdit from "../auth/user-edit";
 
-const ClientWrapper = () => {
+interface ClientWrapperProps {
+  currentUser: any;
+}
+
+const ClientWrapper = ({ currentUser }: ClientWrapperProps) => {
+  const user = JSON.parse(currentUser);
+
   const [botId, setBotId] = useState("");
 
   const handleLinkClick = (type: string) => {
@@ -22,6 +29,7 @@ const ClientWrapper = () => {
     }
   };
 
+
   useEffect(() => {
     const gg = () => {
       if (typeof window !== "undefined") {
@@ -38,7 +46,7 @@ const ClientWrapper = () => {
     <div className="h-[720px] w-full overflow-auto flex items-center justify-center gap-4 flex-col md:flex-row">
       {/* Side bar */}
       <div className="w-full md:w-[25%] h-full bg-[#333] ">
-        <h2 className="text-xl font-bold p-2 underline">lyubTHEBEST1</h2>
+        <h2 className="text-xl font-bold p-2 underline">{user.username}</h2>
         <div className="flex items-center flex-col">
           <button
             onClick={() => handleLinkClick("settings")}
@@ -67,12 +75,24 @@ const ClientWrapper = () => {
         <div className="w-full md:w-[60%] h-full bg-[#333]">
           <div className="flex">
             <div className="bg-[#113] p-3 w-[300px] flex items-center justify-center flex-col gap-4 drop-shadow-lg">
-              <div className="w-[100px] h-[100px] relative">
-                <Image src="/TestConflict.png" alt="user profile image" fill />
-              </div>
+              {user.image || user.image.length > 0 ? (
+                <div className="w-[100px] h-[100px] relative">
+                  <Image
+                    src={user.image}
+                    alt="user profile image"
+                    fill
+                  />
+                </div>
+              ) : (
+                <div className="w-[100px] h-[100px] flex items-center justify-center">
+                  <h2 className="text-xl font-bold text-center">
+                    Sorry no image
+                  </h2>
+                </div>
+              )}
 
-              <h2 className="text-xl font-bold">lyubTHEBEST1</h2>
-              <p>Member: USER</p>
+              <h2 className="text-xl font-bold">{user.username}</h2>
+              <p>Member: {user.role}</p>
             </div>
 
             <div className="flex-grow bg-[#111] border-2 flex items-center justify-center flex-col gap-3">
@@ -83,93 +103,36 @@ const ClientWrapper = () => {
             </div>
           </div>
 
-          <div className="bg-[#111] p-2">
-            <div className="flex items-center justify-between">
-              <div className="w-[100px] h-[100px] relative">
-                <Image src="/bbS.png" alt="fucking stupid" fill />
+          {user.mainBot && (
+            <div className="bg-[#111] p-2">
+              <div className="flex items-center justify-between w-[80%] mx-auto">
+                <div className="w-[100px] h-[100px] relative">
+                  <Image src="/bbS.png" alt="fucking stupid" fill />
+                </div>
+
+                <div>
+                  <h2 className="text-xl font-bold">Botty</h2>
+                  <p className="text-sm text-gray-500">
+                    Be able to explain and translate context in simplicit terms
+                  </p>
+                </div>
               </div>
 
-              <div>
-                <h2 className="text-xl font-bold">Botty</h2>
-                <p className="text-sm text-gray-500">
-                  Be able to explain and translate context in simplicit terms
-                </p>
+              <div className="w-[40%] mx-auto flex items-center justify-around">
+                <button className="p-2 bg-[#222] font-bold rounded-md">
+                  Get back to session
+                </button>
+                <button className="p-2 bg-[#222] font-bold rounded-md">
+                  Create new session
+                </button>
               </div>
             </div>
-
-            <div className="w-full flex items-center justify-around">
-              <button className="p-2 bg-[#222] font-bold rounded-md">
-                Get back to session
-              </button>
-              <button className="p-2 bg-[#222] font-bold rounded-md">
-                Create new session
-              </button>
-            </div>
-          </div>
+          )}
         </div>
       )}
 
       {botId === "edit" && (
-        <div className="w-full md:w-[60%] h-full bg-[#333]">
-          <h2>edit user</h2>
-          <form className="max-w-md mx-auto p-6 bg-gray-800 rounded-md shadow-md">
-            <div>
-              <label className="block text-white mb-2" htmlFor="username">
-                Username
-              </label>
-              <input
-                type="text"
-                id="username"
-                name="username"
-                className="w-full px-4 py-2 mb-4 border rounded-md focus:outline-none focus:border-blue-500 text-black"
-              />
-            </div>
-
-            <div>
-              <label className="block text-white mb-2" htmlFor="metaAccount">
-                metaAccount
-              </label>
-              <input
-                type="text"
-                id="metaAccount"
-                name="metaAccount"
-                className="w-full px-4 py-2 mb-4 border rounded-md focus:outline-none focus:border-blue-500 text-black"
-              />
-            </div>
-
-            <div>
-              <label className="block text-white mb-2" htmlFor="image">
-                Image URL
-              </label>
-              <input
-                type="file"
-                id="image"
-                name="image"
-                className="w-full px-4 py-2 mb-4 border rounded-md focus:outline-none focus:border-blue-500"
-              />
-            </div>
-
-            <div>
-              <label className="block text-white mb-2" htmlFor="password">
-                Password
-              </label>
-
-              <input
-                type="password"
-                id="password"
-                name="password"
-                className="w-full px-4 py-2 mb-4 border rounded-md focus:outline-none focus:border-blue-500 text-black"
-              />
-            </div>
-
-            <button
-              type="submit"
-              className="w-full bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 focus:outline-none"
-            >
-              Update Settings
-            </button>
-          </form>
-        </div>
+        <UserEdit />
       )}
 
       {botId === "bot" && (

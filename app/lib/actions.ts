@@ -9,6 +9,8 @@ import dbConnect from "./db";
 import { User } from "../models/User";
 import { ethers } from "ethers";
 import { sendMail } from "./mail";
+import { writeFile } from "fs/promises";
+import { revalidatePath } from "next/cache";
 
 export const getSession = async () => {
   const session = await getIronSession<SessionData>(cookies(), sessionOptions);
@@ -20,10 +22,7 @@ export const getSession = async () => {
   return session;
 };
 
-export const login = async (
-  state: string | undefined,
-  formData: FormData
-) => {
+export const login = async (state: string | undefined, formData: FormData) => {
   const { email, password } = Object.fromEntries(formData);
   const session = await getSession();
 
@@ -33,7 +32,7 @@ export const login = async (
     const userExist = await User.findOne({ email: email as string }).exec();
     if (!userExist) return "sorry user doesnt exist wtf";
 
-    const authUser = await compare(password as string, userExist.password);    
+    const authUser = await compare(password as string, userExist.password);
     if (!authUser) return "Sorry password dont seem to work";
 
     session.userId = userExist._id.toString();
@@ -60,33 +59,28 @@ export const login = async (
 export const metaLogin = async (
   state: string | undefined,
   formData: FormData
-) => { 
-
-  const {signature} = Object.fromEntries(formData)
+) => {
+  const { signature } = Object.fromEntries(formData);
 
   try {
- 
-    await dbConnect()
+    await dbConnect();
 
     const userAddress = ethers.utils.verifyMessage(
       process.env.SIGNMESSAGE!,
       signature as string
     );
-    
-    const userExist = await User.findOne({metaAddress: userAddress})
-    
-    if(!userExist) return "sorry metaccount not connected"
-    if(userAddress !== userExist.metaAddress) return "Sorry address not right"
 
+    const userExist = await User.findOne({ metaAddress: userAddress });
 
+    if (!userExist) return "sorry metaccount not connected";
+    if (userAddress !== userExist.metaAddress) return "Sorry address not right";
 
-
-    return "success"
+    return "success";
   } catch (error) {
-    console.log(error)
-    return "Error signing user in with meta"
+    console.log(error);
+    return "Error signing user in with meta";
   }
-}
+};
 
 export const Registrar = async (
   state: string | undefined,
@@ -124,13 +118,12 @@ export const logout = async () => {
   redirect("/");
 };
 
-
 export async function ContactEmail(
   prevState: string | object | undefined,
   formData: FormData
 ) {
-  const {name, subject, content} = Object.fromEntries(formData)
-  
+  const { name, subject, content } = Object.fromEntries(formData);
+
   try {
     await dbConnect();
 
@@ -141,9 +134,81 @@ export async function ContactEmail(
       content: content as string,
     });
 
-    return "success"
+    return "success";
   } catch (error) {
     console.log(error);
-    return "fail"
+    return "fail";
+  }
+}
+
+export async function HandleUserUpdate(
+  prevState: string | object | undefined,
+  formData: FormData
+) {
+  const sessionUser = await getSession();
+
+  const { username, password, metaAddress, email } =
+    Object.fromEntries(formData);
+
+  const imageBan = (formData.get("image") as File) || null;
+
+  const updateFields: Record<string, any> = {};
+
+  try {
+    await dbConnect();
+
+    let rest;
+
+    if (username && username !== sessionUser.username) {
+      sessionUser.username = username as string;
+      updateFields.username = username;
+    }
+
+    if (email && email !== sessionUser.email) {
+      sessionUser.email = email as string;
+      updateFields.email = email;
+    }
+
+    if (metaAddress && metaAddress !== sessionUser.metaAccount) {
+      sessionUser.metaAccount = metaAddress as string;
+      updateFields.metaAddress = metaAddress as string;
+    }
+
+    if (imageBan !== null && imageBan.size !== 0) {
+      const fileBuffer = await (imageBan as File).arrayBuffer();
+      const buffer = Buffer.from(fileBuffer);
+      // set path
+      const path = `${process.cwd()}/public/profileImage/${
+        crypto.randomUUID() + imageBan.name
+      }`;
+      // Write image
+      await writeFile(path, buffer);
+      rest = path.split(`${process.cwd()}/public`)[1];
+
+      sessionUser.image = rest;
+      updateFields.image = rest;
+    }
+
+    let newPassword;
+
+    if (password && password !== "") {
+      newPassword = await hash(password as string, 10);
+      updateFields.password = newPassword;
+    }
+
+    updateFields.updatedAt = new Date();
+
+    await User.findByIdAndUpdate(sessionUser.userId as string, updateFields, {
+      runValidators: true, 
+    });
+
+    await sessionUser.save();
+
+    revalidatePath(`/dashboard/settings?type=edit`);
+
+    return "success";
+  } catch (error) {
+    console.log(error);
+    return "Sorry there is an error updating account";
   }
 }
