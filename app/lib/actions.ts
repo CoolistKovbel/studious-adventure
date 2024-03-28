@@ -2,7 +2,7 @@
 
 import { getIronSession } from "iron-session";
 import { SessionData, defaultSession, sessionOptions } from "./sessionClient";
-import { hash } from "bcryptjs";
+import { compare, hash } from "bcryptjs";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import dbConnect from "./db";
@@ -22,11 +22,27 @@ export const login = async (
   state: "error wrong credentials" | "success" | "error" | undefined,
   formData: FormData
 ) => {
+  const {email, password} = Object.fromEntries(formData)
   const session = await getSession();
 
-  console.log(session);
-
   try {
+
+
+    await dbConnect()
+
+
+    const userExist = await User.findOne({email: email as string}).exec()
+
+    if(!userExist) return "sorry user doesnt exist wtf"
+
+    console.log(password)
+    console.log(userExist.password)
+
+    const authUser = await compare(userExist.password, password as string)
+
+    console.log(authUser)
+
+
     return "success";
   } catch (error) {
     console.log(error);
