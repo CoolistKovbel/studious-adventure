@@ -32,6 +32,10 @@ export const grabSpecificBotSession = async (mainBotId: any) => {
   try {
     console.log(mainBotId);
 
+    const mainBot = await Bot.findOne({ _id: mainBotId as string }).populate("botSession");
+
+    console.log(mainBot?.botSession)
+
     return [];
   } catch (error) {
     console.log(error);

@@ -270,3 +270,19 @@ export async function createAIBOT(
     return "error";
   }
 }
+
+export async function handleSessionCreate(
+  prevState: string | object | undefined,
+  formData: FormData
+) { 
+
+
+  try {
+    
+    return "success"
+  } catch (error) {
+    console.log(error)
+    return "failed"
+  }
+
+}

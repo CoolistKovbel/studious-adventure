@@ -61,11 +61,13 @@ const Page = async () => {
     <main className="w-full min-h-screen bg-[#222] flex p-2">
       {mainBot ? (
         <section className="w-full bg-[#111] flex items-start flex-col gap-4 ">
+
           <header className="w-full p-4">
             <h2 className="text-2xl font-bold">Current Bot: </h2>
 
             {/* Current bot */}
             <div className=" w-[80%] mx-auto flex items-center justify-between">
+
               <div className="w-[100px] h-[100px] relative">
                 <Image src={mainBot[0]?.image} alt="sad ai" fill />
               </div>
@@ -79,7 +81,9 @@ const Page = async () => {
                 {/* change session */}
                 <SessionOptions hasBot={JSON.stringify(mainBot)} />
               </div>
+              
             </div>
+
           </header>
 
           {currentSession ? (

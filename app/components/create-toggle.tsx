@@ -35,7 +35,7 @@ const CreateToggle = ({ hasBot, botId }: CreateToggleProps) => {
 
   return (
     <button
-      className="bg-[#333] hover:bg-[#111] p-2 font-bold"
+      className="bg-[#333] hover:bg-[#222] p-2 font-bold rounded-md drop-shadow-lg"
       onClick={hasBo ? handleCreateSession : handleCreateBot}
     >
       {hasBo ? "create session" : "create bot"}
