@@ -16,9 +16,9 @@ export default function Home() {
         </div>
 
         <nav className="flex items-center gap-4 ">
-          <Link href="/" className="p-2 bg-[#222] rounded-md font-bold drop-shadow-lg">About</Link>
-          <Link href="/" className="p-2 bg-[#222] rounded-md font-bold drop-shadow-lg">Contact</Link>
-          <Link href="/" className="p-2 bg-[#222] rounded-md font-bold drop-shadow-lg">Faucet</Link>
+          <Link href="/about" className="p-2 bg-[#222] rounded-md font-bold drop-shadow-lg">About</Link>
+          <Link href="/contact" className="p-2 bg-[#222] rounded-md font-bold drop-shadow-lg">Contact</Link>
+          <Link href="/faucet" className="p-2 bg-[#222] rounded-md font-bold drop-shadow-lg">Faucet</Link>
           <div>
             <Link  href="/login"className="p-2 bg-[#333] mr-2 rounded-md font-bold drop-shadow-lg">Login</Link>
             <Link href="/register"className="p-2 bg-[#333] rounded-md font-bold drop-shadow-lg">Register</Link>

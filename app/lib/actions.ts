@@ -8,6 +8,7 @@ import { redirect } from "next/navigation";
 import dbConnect from "./db";
 import { User } from "../models/User";
 import { ethers } from "ethers";
+import { sendMail } from "./mail";
 
 export const getSession = async () => {
   const session = await getIronSession<SessionData>(cookies(), sessionOptions);
@@ -55,6 +56,7 @@ export const login = async (
   }
 };
 
+// Todo: fix this login
 export const metaLogin = async (
   state: string | undefined,
   formData: FormData
@@ -121,3 +123,27 @@ export const logout = async () => {
   session.destroy();
   redirect("/");
 };
+
+
+export async function ContactEmail(
+  prevState: string | object | undefined,
+  formData: FormData
+) {
+  const {name, subject, content} = Object.fromEntries(formData)
+  
+  try {
+    await dbConnect();
+
+    await sendMail({
+      to: process.env.SMTP_EMAIL as string,
+      name: name as string,
+      subject: subject as string,
+      content: content as string,
+    });
+
+    return "success"
+  } catch (error) {
+    console.log(error);
+    return "fail"
+  }
+}
