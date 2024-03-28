@@ -1,20 +1,17 @@
 import SessionOptions from "@/app/components/sessions/session-options";
 import { getSession } from "@/app/lib/actions";
-import { grabUserBots } from "@/app/lib/botAction";
+import { grabSpecificBot, grabSpecificBotSession } from "@/app/lib/botAction";
 import Image from "next/image";
-import React from "react";
 
 const Page = async () => {
+  // grab user
   const currentUser = await getSession();
-  // Grabs all bots
-  const currentBotz: any = await grabUserBots(currentUser.userId as string);
-  const botz = currentBotz.filter(
-    (item: any) => item._id.toString() === currentUser.mainBot
+  // grab current bot
+  const mainBot = await grabSpecificBot(currentUser.mainBot as string);
+  // grab current session
+  const currentSess = await grabSpecificBotSession(
+    typeof mainBot !== "string" && mainBot[0]._id.toString()
   );
-
-  const selectedBot = botz[0];
-
-  const currentBot = botz?.length > 0;
 
   const currentSessionType = "SCRAPE";
   const currentSession = false;
@@ -58,11 +55,11 @@ const Page = async () => {
     },
   ];
 
-  console.log(selectedBot, "de current bot");
+  console.log(mainBot, "de current bot");
 
   return (
     <main className="w-full min-h-screen bg-[#222] flex p-2">
-      {currentBot ? (
+      {mainBot ? (
         <section className="w-full bg-[#111] flex items-start flex-col gap-4 ">
           <header className="w-full p-4">
             <h2 className="text-2xl font-bold">Current Bot: </h2>
@@ -70,15 +67,17 @@ const Page = async () => {
             {/* Current bot */}
             <div className=" w-[80%] mx-auto flex items-center justify-between">
               <div className="w-[100px] h-[100px] relative">
-                <Image src={botz[0]?.image} alt="sad ai" fill />
+                <Image src={mainBot[0]?.image} alt="sad ai" fill />
               </div>
 
               <div className="w-[50%]">
-                <h3 className="text-xl font-bold">{botz[0]?.name}</h3>
-                <p className="text-sm text-gray-500">{botz[0]?.mainPurpose}</p>
+                <h3 className="text-xl font-bold">{mainBot[0]?.name}</h3>
+                <p className="text-sm text-gray-500">
+                  {mainBot[0]?.mainPurpose}
+                </p>
 
                 {/* change session */}
-                <SessionOptions hasBot={JSON.stringify(botz)} />
+                <SessionOptions hasBot={JSON.stringify(mainBot)} />
               </div>
             </div>
           </header>

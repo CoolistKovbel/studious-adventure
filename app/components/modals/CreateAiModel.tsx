@@ -30,6 +30,10 @@ const CreateAIModel = () => {
       }
     } catch (error) {
       console.error("Error:", error);
+    } finally {
+      if (state === "success") {
+        onClose();
+      }
     }
   };
 
