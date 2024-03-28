@@ -8,9 +8,10 @@ const Page = async () => {
   const currentUser = await getSession();
   // grab current bot
   const mainBot = await grabSpecificBot(currentUser.mainBot as string);
+
   // grab current session
   const currentSess = await grabSpecificBotSession(
-    typeof mainBot !== "string" && mainBot[0]._id.toString()
+    Array.isArray(mainBot) && mainBot[0]?._id.toString()
   );
 
   const currentSessionType = "SCRAPE";
@@ -55,7 +56,6 @@ const Page = async () => {
     },
   ];
 
-  console.log(mainBot, "de current bot");
 
   return (
     <main className="w-full min-h-screen bg-[#222] flex p-2">

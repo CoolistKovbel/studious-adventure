@@ -3,6 +3,7 @@
 import { useModal } from "@/app/hooks/use-modal-store";
 import { createAIBOT } from "@/app/lib/actions";
 import Image from "next/image";
+import { useEffect } from "react";
 import { useFormState } from "react-dom";
 
 const CreateAIModel = () => {
@@ -24,22 +25,20 @@ const CreateAIModel = () => {
     try {
       dispatch(formData);
       e.currentTarget.reset();
-
-      if (state === "success") {
-        onClose();
-      }
     } catch (error) {
       console.error("Error:", error);
-    } finally {
-      if (state === "success") {
-        onClose();
-      }
     }
   };
 
   const handleClose = () => {
     onClose();
   };
+
+  useEffect(() => {
+    if (state === "success") {
+      onClose();
+    }
+  }, [state, onClose]);
 
   return (
     <div
