@@ -5,7 +5,6 @@ import { createAIBOT } from "@/app/lib/actions";
 import Image from "next/image";
 import { useFormState } from "react-dom";
 
-
 const CreateAIModel = () => {
   const { isOpen, onClose, type } = useModal();
 
@@ -20,11 +19,15 @@ const CreateAIModel = () => {
     e.preventDefault();
 
     const formData = new FormData(e.currentTarget);
-    formData.append("sessoinUrl", desiredUrl)
+    formData.append("sessoinUrl", desiredUrl);
 
     try {
       dispatch(formData);
       e.currentTarget.reset();
+
+      if (state === "success") {
+        onClose();
+      }
     } catch (error) {
       console.error("Error:", error);
     }
@@ -34,7 +37,6 @@ const CreateAIModel = () => {
     onClose();
   };
 
-
   return (
     <div
       className={`fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 ${
@@ -42,7 +44,6 @@ const CreateAIModel = () => {
       }`}
     >
       <div className="bg-[#222] rounded-md p-4 w-[300px] md:w-[600px] overflow-auto h-[50%]">
-        
         {/* close button */}
         <button className="absolute top-10 right-10" onClick={handleClose}>
           <svg
@@ -62,8 +63,7 @@ const CreateAIModel = () => {
         </button>
 
         <div className="w-full h-full text-white flex justify-between flex-col ">
-       
-         <h2 className="text-2xl md:text-4xl text-center font-bold">
+          <h2 className="text-2xl md:text-4xl text-center font-bold">
             Create AI
           </h2>
 
@@ -77,8 +77,6 @@ const CreateAIModel = () => {
             onSubmit={handleSubmit}
             className="flex flex-col items-center justify-center bg-gray-900 p-6 rounded-lg shadow-lg "
           >
-
-
             <label htmlFor="botName" className="text-white text-lg mb-2">
               Bot Name
             </label>
@@ -121,11 +119,9 @@ const CreateAIModel = () => {
               <div className="text-white mt-4">{JSON.stringify(state)}</div>
             )}
           </form>
-          
         </div>
 
         {state && <div>{state}</div>}
-
       </div>
     </div>
   );

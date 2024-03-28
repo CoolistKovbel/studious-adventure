@@ -88,8 +88,7 @@ const ClientWrapper = ({ currentUser, userBots }: ClientWrapperProps) => {
     gg();
   }, [botId, searchParams]);
 
-  console.log(bots.length > 0, "there is abots");
-
+  
   return (
     <div className="h-[740px] w-full flex items-center justify-center gap-4 flex-col md:flex-row">
       {/* Side bar */}
@@ -120,6 +119,7 @@ const ClientWrapper = ({ currentUser, userBots }: ClientWrapperProps) => {
       {/* Content */}
       {!botId && (
         <div className="w-full md:w-[60%] h-full bg-[#333]">
+
           <div className="flex">
             <div className="bg-[#113] p-3 w-[300px] flex items-center justify-center flex-col gap-4 drop-shadow-lg">
               {user.image ? (
@@ -174,6 +174,7 @@ const ClientWrapper = ({ currentUser, userBots }: ClientWrapperProps) => {
               </div>
             </div>
           )}
+
         </div>
       )}
 
@@ -187,7 +188,8 @@ const ClientWrapper = ({ currentUser, userBots }: ClientWrapperProps) => {
             {bots.length > 0 ? (
               <div className="flex justify-between">
                 {/* Bot select */}
-                <div className="bg-[#111] font-bold w-[20%] p-4">
+                <div className="bg-[#111] font-bold w-[20%] flex flex-col items-center justify-around p-4">
+                  <div className="h-[80%] overflow-auto">
                   {bots.map((item: any) => (
                     <Link
                       key={crypto.randomUUID()}
@@ -197,6 +199,9 @@ const ClientWrapper = ({ currentUser, userBots }: ClientWrapperProps) => {
                       {item.name}
                     </Link>
                   ))}
+                  </div>
+
+                  <CreateToggle hasBot={bots} />
                 </div>
 
                 {/* Bot description */}

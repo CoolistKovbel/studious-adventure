@@ -1,11 +1,23 @@
+import SessionOptions from "@/app/components/sessions/session-options";
+import { getSession } from "@/app/lib/actions";
+import { grabUserBots } from "@/app/lib/botAction";
 import Image from "next/image";
 import React from "react";
 
-const Page = () => {
-  const currentBot = true;
-  const currentSession = true;
+const Page = async () => {
+  const currentUser = await getSession();
+  // Grabs all bots
+  const currentBotz: any = await grabUserBots(currentUser.userId as string);
+  const botz = currentBotz.filter(
+    (item: any) => item._id.toString() === currentUser.mainBot
+  );
+
+  const selectedBot = botz[0];
+
+  const currentBot = botz?.length > 0;
 
   const currentSessionType = "SCRAPE";
+  const currentSession = false;
 
   const messageData = [
     {
@@ -46,43 +58,27 @@ const Page = () => {
     },
   ];
 
+  console.log(selectedBot, "de current bot");
+
   return (
     <main className="w-full min-h-screen bg-[#222] flex p-2">
       {currentBot ? (
         <section className="w-full bg-[#111] flex items-start flex-col gap-4 ">
           <header className="w-full p-4">
-            <h2>Current Bot: </h2>
+            <h2 className="text-2xl font-bold">Current Bot: </h2>
 
             {/* Current bot */}
-            <div className="flex items-center justify-between">
+            <div className=" w-[80%] mx-auto flex items-center justify-between">
               <div className="w-[100px] h-[100px] relative">
-                <Image src="/bbS.png" alt="sad ai" fill />
+                <Image src={botz[0]?.image} alt="sad ai" fill />
               </div>
 
               <div className="w-[50%]">
-                <h3 className="text-xl font-bold">sadbot</h3>
-                <p className="text-sm text-gray-500">
-                  trys to make me happy even though we both feel sad
-                </p>
+                <h3 className="text-xl font-bold">{botz[0]?.name}</h3>
+                <p className="text-sm text-gray-500">{botz[0]?.mainPurpose}</p>
 
                 {/* change session */}
-                <div className="flex items-center gap-3 mt-4">
-                  <button className="p-1 font-bold bg-[#222] rounded-md text-md">
-                    new session
-                  </button>
-
-                  <form>
-                    <select
-                      name="recentSession"
-                      id="recentSession"
-                      className="p-1 rounded-md bg-[#222] font-bold p-1"
-                    >
-                      <option value="">recent sessions</option>
-                      <option value="">recent sessions</option>
-                      <option value="">recent sessions</option>
-                    </select>
-                  </form>
-                </div>
+                <SessionOptions hasBot={JSON.stringify(botz)} />
               </div>
             </div>
           </header>

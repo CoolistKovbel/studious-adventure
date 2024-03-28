@@ -9,6 +9,7 @@ interface CreateToggleProps {
 
 const CreateToggle = ({ hasBot, botId }: CreateToggleProps) => {
   const deBot = !hasBot;
+  console.log(hasBot)
 
   const { onOpen } = useModal();
 

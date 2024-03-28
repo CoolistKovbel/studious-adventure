@@ -257,7 +257,10 @@ export async function createAIBOT(
       runValidators: true,
     });
 
-    
+    currentSession.mainBot = newBot._id as string
+
+    await currentSession.save()
+
     revalidatePath(sessoinUrl as string)
 
 
