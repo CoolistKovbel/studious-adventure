@@ -11,6 +11,7 @@ import { ethers } from "ethers";
 import { sendMail } from "./mail";
 import { writeFile } from "fs/promises";
 import { revalidatePath } from "next/cache";
+import { Bot } from "../models/Bot";
 
 export const getSession = async () => {
   const session = await getIronSession<SessionData>(cookies(), sessionOptions);
@@ -199,7 +200,7 @@ export async function HandleUserUpdate(
     updateFields.updatedAt = new Date();
 
     await User.findByIdAndUpdate(sessionUser.userId as string, updateFields, {
-      runValidators: true, 
+      runValidators: true,
     });
 
     await sessionUser.save();
@@ -210,5 +211,57 @@ export async function HandleUserUpdate(
   } catch (error) {
     console.log(error);
     return "Sorry there is an error updating account";
+  }
+}
+
+export async function createAIBOT(
+  prevState: string | object | undefined,
+  formData: FormData
+) {
+  const currentSession = await getSession();
+  const { botName, botPurpose, sessoinUrl } = Object.fromEntries(formData);
+  const botImage = formData.get("botImage") as File;
+  let rest;
+
+  try {
+    await dbConnect();
+
+    if (botImage !== null && botImage.size !== 0) {
+      const fileBuffer = await (botImage as File).arrayBuffer();
+      const buffer = Buffer.from(fileBuffer);
+      // set path
+      const path = `${process.cwd()}/public/profileImage/${
+        crypto.randomUUID() + botImage.name
+      }`;
+      // Write image
+      await writeFile(path, buffer);
+      rest = path.split(`${process.cwd()}/public`)[1];
+
+      currentSession.image = rest;
+    }
+
+    const payload = {
+      name: botName as string,
+      mainPurpose: botPurpose as string,
+      image: rest,
+      botParent: currentSession.userId as string
+    }
+
+    const newBot = new Bot(payload)
+
+    await newBot.save()
+
+    await User.findByIdAndUpdate(currentSession.userId as string, {mainBot: newBot._id}, {
+      runValidators: true,
+    });
+
+    
+    revalidatePath(sessoinUrl as string)
+
+
+    return "success";
+  } catch (error) {
+    console.log(error);
+    return "error";
   }
 }

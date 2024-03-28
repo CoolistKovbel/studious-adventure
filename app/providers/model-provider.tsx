@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import CreateAIModel from "../components/modals/CreateAiModel";
 
 
 
@@ -18,7 +19,7 @@ export const ModalProvider = () => {
 
   return (
     <>
-
+      <CreateAIModel />
     </>
   );
 };

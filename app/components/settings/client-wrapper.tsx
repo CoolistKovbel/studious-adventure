@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { useState, useEffect } from "react";
 import UserEdit from "../auth/user-edit";
+import { useModal } from "@/app/hooks/use-modal-store";
 
 interface ClientWrapperProps {
   currentUser: any;
@@ -10,6 +11,7 @@ interface ClientWrapperProps {
 
 const ClientWrapper = ({ currentUser }: ClientWrapperProps) => {
   const user = JSON.parse(currentUser);
+  const { onOpen } = useModal();
 
   const [botId, setBotId] = useState("");
 
@@ -28,6 +30,14 @@ const ClientWrapper = ({ currentUser }: ClientWrapperProps) => {
       }
     }
   };
+
+  const handleNewBot = async () =>{
+    try {
+      onOpen("createAI")
+    } catch (error) {
+      console.log(error)
+    }
+  }
 
 
   useEffect(() => {
@@ -97,7 +107,7 @@ const ClientWrapper = ({ currentUser }: ClientWrapperProps) => {
 
             <div className="flex-grow bg-[#111] border-2 flex items-center justify-center flex-col gap-3">
               <h2 className="text-xl font-bold">Need a bot?</h2>
-              <button className="bg-[#333] hover:bg-[#222] font-bold p-1 rounded-md">
+              <button className="bg-[#333] hover:bg-[#222] font-bold p-1 rounded-md" onClick={handleNewBot}>
                 Create New
               </button>
             </div>
@@ -138,6 +148,22 @@ const ClientWrapper = ({ currentUser }: ClientWrapperProps) => {
       {botId === "bot" && (
         <div className="w-full md:w-[60%] h-full bg-[#333]">
           <h2>edit bot</h2>
+
+
+          <div className="w-full bg-[#222] h-[98%] drop-shadow-lg flex justify-between p-4">
+        {/* Bot select */}
+        <div className="bg-[#111] font-bold w-[20%] p-4">
+          <h2>select bot</h2>
+        </div>
+
+        {/* Bot description */}
+        <div className="bg-[#111] p-2 w-[70%]">
+          <h2>bot description</h2>
+        </div>
+
+      </div>
+
+
         </div>
       )}
     </div>
