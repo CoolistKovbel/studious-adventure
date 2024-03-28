@@ -2,20 +2,36 @@
 
 import React, { useEffect, useState } from "react";
 import { getEthereumAccount } from "@/app/lib/web3";
+import { metaLogin } from "@/app/lib/actions";
+import { useFormState } from "react-dom";
+import { ethers } from "ethers";
 
-const LoginMetaForm = () => {
+interface LoginMetaFormProps {
+  msg: string;
+}
+
+const LoginMetaForm = ({msg}: LoginMetaFormProps) => {
   const [metaAccount, setMetaAccount] = useState<any>("");
-
-  const ethereum = typeof window !== "undefined" ? window.ethereum : null;
-
+  const [state, dispatch] = useFormState(metaLogin, undefined);
+  const mess = msg as string
 
   const signInWithMetamask = async () => {
-    try {
-        console.log("working")
-    } catch (error) {
-        console.log(error)
+    if (typeof window !== 'undefined') {
+      const formData = new FormData();
+      const provider = new ethers.providers.Web3Provider(window.ethereum);
+      const signer = provider.getSigner();
+      const signature = await signer.signMessage(mess);
+
+      try {
+        console.log("working");
+        formData.append("signature", signature);
+        dispatch(formData);
+      } catch (error) {
+        console.log(error);
+      }
     }
-  }
+  };
+  
 
   useEffect(() => {
     const xx = async () => {
@@ -24,9 +40,13 @@ const LoginMetaForm = () => {
       console.log(ethAccount, "nmothing");
       setMetaAccount(ethAccount);
     };
-    xx();
-  }, []);
 
+
+    console.log(state,"de current state")
+
+
+    xx();
+  }, [state]);
 
   return (
     <>
@@ -35,7 +55,11 @@ const LoginMetaForm = () => {
           <h2 className="text-[13px] font-bold uppercase">
             🦊 Oh you have metamask ꃕ{" "}
           </h2>
-          <button className="bg-[#111] p-2 font-bold text-[12px] uppercase rounded-md drop-shadow-lg" onClick={signInWithMetamask}>
+          {state && (<p>{state}</p>)}
+          <button
+            className="bg-[#111] p-2 font-bold text-[12px] uppercase rounded-md drop-shadow-lg"
+            onClick={signInWithMetamask}
+          >
             Sign in
           </button>
         </div>

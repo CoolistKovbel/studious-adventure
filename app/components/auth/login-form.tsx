@@ -26,9 +26,9 @@ const LoginForm = () => {
     }
   };
 
-//   useEffect(() => {
-//     if (state?.startsWith("success")) router.push("/dashboard");
-//   }, [state, router]);
+  useEffect(() => {
+    if (state?.startsWith("success")) router.push("/dashboard");
+  }, [state, router]);
 
   return (
     <div className="flex items-center justify-around">
@@ -57,7 +57,7 @@ const LoginForm = () => {
           />
         </label>
 
-        {isLoading && <p>Loading ....</p>}
+        {isLoading || state && (<p>Loading ....</p> || <p>{state}</p>)}
 
         <button className="bg-[#222] text-white px-6 py-2 rounded-md hover:bg-[#333] drop-shadow-lg">
           Login

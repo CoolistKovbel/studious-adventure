@@ -2,9 +2,16 @@
 
 import Link from "next/link";
 import { useState } from "react";
+import LogoutButton from "./logoutbutton";
 
-const AuthNav = () => {
+interface AuthNavProps{
+  currrentSession: any;
+}
+
+const AuthNav = ({currrentSession}:AuthNavProps) => {
   const [handleToggle, setHandleToggle] = useState(false);
+  const currentSess = JSON.parse(currrentSession)
+  
 
   return (
     <header className="w-full flex items-center justify-between p-4 bg-[#000]">
@@ -15,7 +22,7 @@ const AuthNav = () => {
       <nav className="relative">
 
         <span onClick={() => setHandleToggle((prev) => !prev)} className="p-2 bg-[#222] rounded-md">
-          lyubTHEBEST1
+          {currentSess.username}
         </span>
 
         {handleToggle && (
@@ -34,6 +41,9 @@ const AuthNav = () => {
             </li>
             <li className="p-2 bg-[#111] hover:bg-[#333]">
               <Link href="/settings">Settings</Link>
+            </li>
+            <li className="p-2 bg-[#111] hover:bg-[#333]">
+              <LogoutButton />
             </li>
           </ul>
         )}
