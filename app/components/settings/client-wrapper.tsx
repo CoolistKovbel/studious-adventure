@@ -10,10 +10,11 @@ import CreateToggle from "../create-toggle";
 
 interface ClientWrapperProps {
   currentUser: any;
+  currenUserBot: any;
   userBots: any;
 }
 
-const ClientWrapper = ({ currentUser, userBots }: ClientWrapperProps) => {
+const ClientWrapper = ({ currentUser, userBots, currenUserBot }: ClientWrapperProps) => {
   const [botId, setBotId] = useState("");
   const searchParams = useSearchParams();
   const selectedBotRef = useRef<any>(null);
@@ -46,6 +47,7 @@ const ClientWrapper = ({ currentUser, userBots }: ClientWrapperProps) => {
 
   const user = JSON.parse(currentUser);
   const bots = JSON.parse(userBots);
+  const currentBot = JSON.parse(currenUserBot)
 
   const handleLinkClick = (type: string) => {
     if (type === "settings") {
@@ -89,11 +91,16 @@ const ClientWrapper = ({ currentUser, userBots }: ClientWrapperProps) => {
     gg();
   }, [botId, searchParams]);
 
+
+  console.log(bots, 'in the client wrapper')
+  console.log(selectedBotRef, 'in the client wrapper')
+  console.log(currentBot, "hate my life")
   
   return (
     <div className="h-[740px] w-full flex items-center justify-center gap-4 flex-col md:flex-row">
+
       {/* Side bar */}
-      <div className="w-full md:w-[25%] h-full bg-[#333] ">
+      <div className="w-full md:w-[20%] h-full bg-[#333] ">
         <h2 className="text-xl font-bold p-2 underline">{user.username}</h2>
         <div className="flex items-center flex-col">
           <button
@@ -183,6 +190,7 @@ const ClientWrapper = ({ currentUser, userBots }: ClientWrapperProps) => {
 
       {botId === "edit" && <UserEdit />}
 
+
       {botId === "bot" && (
         <div className="w-full md:w-[60%] h-full bg-[#333] ">
           <h2 className="p-2 text-2xl font-bold">Edit Bot</h2>
@@ -190,6 +198,7 @@ const ClientWrapper = ({ currentUser, userBots }: ClientWrapperProps) => {
           <div className="w-full bg-[#222] h-fit drop-shadow-lg p-4">
             {bots.length > 0 ? (
               <div className="flex justify-between">
+
                 {/* Bot select */}
                 <div className="bg-[#111] font-bold w-[20%] flex flex-col items-center justify-around p-4">
                   <div className="h-[80%] overflow-auto">
@@ -211,18 +220,14 @@ const ClientWrapper = ({ currentUser, userBots }: ClientWrapperProps) => {
                 <div className="bg-[#111] p-2 w-[70%] h-fit p-10">
                   <header className="flex items-center justify-between w-[80%] mx-auto">
                     <div className="w-[70%]">
-                      <h2 className="text-2xl font-bold">bot chatlie</h2>
+                      <h2 className="text-2xl font-bold">{currentBot[0].name}</h2>
                       <p className="text-md text-gray-500">
-                        Lorem, ipsum dolor sit amet consectetur adipisicing
-                        elit. Quos, assumenda rerum eos numquam molestias
-                        pariatur fugiat iusto facere ab repudiandae inventore,
-                        at ratione voluptatum consequuntur, debitis recusandae
-                        tempore! Corrupti, commodi?
+                      {currentBot[0].mainPurpose}
                       </p>
                     </div>
 
                     <div className="w-[200px] h-[200px] relative">
-                      <Image src="/bbS.png" alt="bot image" fill />
+                      <Image src={currentBot[0].image} alt="bot image" fill />
                     </div>
                   </header>
 
@@ -286,6 +291,7 @@ const ClientWrapper = ({ currentUser, userBots }: ClientWrapperProps) => {
                     </div>
                   </div>
                 </div>
+
               </div>
             ) : (
               <div className="p-2 w-full">
@@ -294,8 +300,17 @@ const ClientWrapper = ({ currentUser, userBots }: ClientWrapperProps) => {
               </div>
             )}
           </div>
+
+          
         </div>
       )}
+
+
+
+
+
+
+
     </div>
   );
 };

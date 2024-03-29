@@ -9,6 +9,9 @@ interface CreateToggleProps {
  
 const CreateToggle = ({ hasBot, botId }: CreateToggleProps) => {
   const { onOpen } = useModal();
+  const botHas = hasBot?.length > 0 || false
+  
+  console.log(botHas)
 
   const handleCreateBot = async () => {
     try {
@@ -31,9 +34,9 @@ const CreateToggle = ({ hasBot, botId }: CreateToggleProps) => {
   return (
     <button
       className="bg-[#333] hover:bg-[#222] p-2 font-bold rounded-md drop-shadow-lg"
-      onClick={typeof hasBot === "object" ? handleCreateSession : handleCreateBot}
+      onClick={botHas ? handleCreateSession : handleCreateBot}
     >
-      {typeof hasBot === "object" ? "create session" : "create bot"}
+      {botHas ? "create sessions" : "create bot"}
     </button>
   );
 };

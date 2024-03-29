@@ -10,8 +10,8 @@ interface SessionOptionsProps {
 }
 
 const SessionOptions = ({ hasBot, botSessions }: SessionOptionsProps) => {
-  const recentSessions = JSON.parse(hasBot);
-  const botSession = JSON.parse(botSessions);
+  const recentSessions = hasBot;
+  const botSession = botSessions;
 
   const [state, dispatch] = useFormState(handleSessionUpdate, undefined);
 
@@ -28,7 +28,7 @@ const SessionOptions = ({ hasBot, botSessions }: SessionOptionsProps) => {
     <div className="flex items-center gap-3 mt-4">
       <CreateToggle hasBot={hasBot} />
 
-      {recentSessions[0].botSession.length > 0 && (
+      {recentSessions[0].botSession?.length > 0 && (
         <select
           name="recentSession"
           id="recentSession"

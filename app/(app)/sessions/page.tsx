@@ -1,21 +1,27 @@
-"use server"
+"use server";
 
 import CreateToggle from "@/app/components/create-toggle";
 import SessionOptions from "@/app/components/sessions/session-options";
 import { getSession } from "@/app/lib/actions";
-import { grabAllBotSessions, grabSpecificBabyBotSession, grabSpecificBot, grabSpecificBotSession } from "@/app/lib/botAction";
+import {
+  grabAllBotSessions,
+  grabSpecificBabyBotSession,
+  grabSpecificBot,
+  grabSpecificBotSession,
+} from "@/app/lib/botAction";
 import Image from "next/image";
 
 const Page = async () => {
-
-  let currentBabyBot;
+  let currentBabyBot: any = [];
+  let currentSessionType: any;
 
   // grab user
   const currentUser = await getSession();
 
   // grab current bot
   const mainBot = await grabSpecificBot(currentUser.mainBot as string);
-  const passable = JSON.stringify(mainBot)
+
+  const passable = JSON.stringify(mainBot);
 
   // grab current session
   const currentSess = await grabSpecificBotSession(
@@ -23,16 +29,23 @@ const Page = async () => {
   );
 
   // Grab current session 2
-  if(typeof currentUser.currentBotSession === "string") {
-    currentBabyBot = await grabSpecificBabyBotSession(currentUser.currentBotSession as string)
+  if (typeof currentUser.currentBotSession === "string") {
+    currentBabyBot = await grabSpecificBabyBotSession(
+      currentUser.currentBotSession as string
+    );
   }
-  
+
   // Get all bot sessions
-  const allBotSessions = await grabAllBotSessions(Array.isArray(mainBot) && mainBot[0]?._id.toString())
+  const allBotSessions = await grabAllBotSessions(
+    Array.isArray(mainBot) && mainBot[0]?._id.toString()
+  );
 
   // Get bot type
-  const currentSessionType = currentBabyBot[0].botType ; //TODO: Fix this
-  const currentSession = currentSess.length > 0;
+  if (currentBabyBot.length > 0) {
+    currentSessionType = currentBabyBot[0].botType.toString(); //TODO: Fix this
+  }
+
+  const currentSession = currentBabyBot.length > 0;
 
   const messageData = [
     {
@@ -73,20 +86,17 @@ const Page = async () => {
     },
   ];
 
-
-  console.log(currentBabyBot, "the current bab")
+  console.log(mainBot, "the current bab");
 
   return (
     <main className="w-full min-h-screen bg-[#222] flex p-2">
-      {mainBot ? (
+      {currentUser?.mainBot ? (
         <section className="w-full bg-[#111] flex items-start flex-col gap-4 ">
-
           <header className="w-full p-4">
             <h2 className="text-2xl font-bold mb-4">Current Bot: </h2>
 
             {/* Current bot */}
             <div className=" w-[70%] mx-auto flex items-center justify-between">
-
               <div className="w-[100px] h-[100px] relative">
                 <Image src={mainBot[0]?.image} alt="sad ai" fill />
               </div>
@@ -98,29 +108,33 @@ const Page = async () => {
                 </p>
 
                 {/* change session */}
-                <SessionOptions hasBot={passable}  botSessions={JSON.stringify(allBotSessions)} />
+                <SessionOptions
+                  hasBot={passable}
+                  botSessions={JSON.stringify(allBotSessions)}
+                />
               </div>
-              
             </div>
-
           </header>
 
           {/* Current session ingo */}
           {currentSession ? (
             <article className="w-full bg-[#999]">
-
               <header className="flex flex-row-reverse w-full items-center justify-center p-4">
-
-        
-
                 <div className="w-[100px] h-[100px] relative">
-                  <Image src={currentBabyBot[0].image as string} alt="sad session" fill  className="drop-shadow-lg "/>
+                  <Image
+                    src={currentBabyBot[0].image as string}
+                    alt="sad session"
+                    fill
+                    className="drop-shadow-lg "
+                  />
                 </div>
 
                 <div className="w-[70%]">
-                  <h3 className="text-xl font-bold">{currentBabyBot[0].name as string}</h3>
+                  <h3 className="text-xl font-bold">
+                    {currentBabyBot[0].name as string}
+                  </h3>
                   <p className="text-sm text-gray-500">
-                  {currentBabyBot[0].mainPurpose as string}
+                    {currentBabyBot[0].mainPurpose as string}
                   </p>
                   <p className="bg-[#000] rounded-md  inline-block p-1 mt-2">
                     type:
@@ -208,7 +222,6 @@ const Page = async () => {
                       submit
                     </button>
                   </form>
-
                 </div>
               )}
 
@@ -257,7 +270,11 @@ const Page = async () => {
                           <option value="natural">natural</option>
                         </select>
 
-                        <select name="sizes" id="sizes" className="w-full bg-[#000] text-gray-500 p-2">
+                        <select
+                          name="sizes"
+                          id="sizes"
+                          className="w-full bg-[#000] text-gray-500 p-2"
+                        >
                           <option value="">Choose size</option>
                           <option value="1024x1024">1024x1024</option>
                           <option value="1792x1024">1792x1024</option>
@@ -413,7 +430,6 @@ const Page = async () => {
                       <div className="w-[300px] h-[300px] bg-[#444] drop-shadow-lg rounded-md"></div>
                     </div>
                   </div>
-
                 </div>
               )}
 
@@ -529,17 +545,13 @@ const Page = async () => {
               <CreateToggle hasBot={passable} />
             </article>
           )}
-
-
         </section>
       ) : (
         <section className="w-full bg-[#111] h-[400px] flex items-center flex-col justify-center gap-4">
           <h2 className="text-2xl font-bold capitalize">
             Need to create session or bot
           </h2>
-          <button className="bg-[#222] font-bold uppercase p-2 rounded-md drop-shadow-lg hover:bg-[#333]">
-            start now
-          </button>
+          <CreateToggle />
         </section>
       )}
     </main>
