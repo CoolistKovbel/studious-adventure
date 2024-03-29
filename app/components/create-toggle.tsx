@@ -3,16 +3,11 @@ import React from "react";
 import { useModal } from "../hooks/use-modal-store";
 
 interface CreateToggleProps {
-  hasBot: any;
+  hasBot?: any;
   botId?: any;
 }
-
+ 
 const CreateToggle = ({ hasBot, botId }: CreateToggleProps) => {
-  const currentBot = JSON.parse(hasBot);
-  const hasBo = Array.isArray(currentBot);
-
-  console.log(Array.isArray(currentBot), "sad life");
-
   const { onOpen } = useModal();
 
   const handleCreateBot = async () => {
@@ -36,9 +31,9 @@ const CreateToggle = ({ hasBot, botId }: CreateToggleProps) => {
   return (
     <button
       className="bg-[#333] hover:bg-[#222] p-2 font-bold rounded-md drop-shadow-lg"
-      onClick={hasBo ? handleCreateSession : handleCreateBot}
+      onClick={typeof hasBot === "object" ? handleCreateSession : handleCreateBot}
     >
-      {hasBo ? "create session" : "create bot"}
+      {typeof hasBot === "object" ? "create session" : "create bot"}
     </button>
   );
 };

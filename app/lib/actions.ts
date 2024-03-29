@@ -323,3 +323,23 @@ export async function handleSessionCreate(
     return "failed";
   }
 }
+
+export async function handleSessionUpdate(  prevState: string | object | undefined,
+  formData: string) {
+    const currentUser = await getSession()
+
+    try {
+
+      currentUser.currentBotSession = formData
+
+      await currentUser.save()
+      
+      revalidatePath("/sessions")
+
+      return "success"
+      
+    } catch (error) {
+      console.log(error)
+      return "sorry couldnt switch sessions"
+    }
+}
