@@ -63,6 +63,7 @@ export const metaLogin = async (
   formData: FormData
 ) => {
   const { signature } = Object.fromEntries(formData);
+  const session = await getSession()
 
   try {
     await dbConnect();
@@ -71,13 +72,27 @@ export const metaLogin = async (
       process.env.SIGNMESSAGE!,
       signature as string
     );
-
     const userExist = await User.findOne({ metaAddress: userAddress });
 
     if (!userExist) return "sorry metaccount not connected";
     if (userAddress !== userExist.metaAddress) return "Sorry address not right";
 
     // verify signature dumbass
+    console.log(userAddress)
+
+    session.userId = userExist._id.toString();
+    session.username = userExist.username;
+    session.email = userExist.email;
+    session.isPro = userExist.isPro;
+    session.role = userExist.role;
+    session.metaAccount = userExist.metaAddress;
+    session.metaSignSignature = signature as string
+    session.tokens = Number(userExist.tokens);
+    session.count = Number(userExist.count);
+
+    session.isLoggedIn = true;
+
+    await session.save();
 
     return "success";
   } catch (error) {
@@ -217,6 +232,27 @@ export async function HandleUserUpdate(
   }
 }
 
+export async function handleUserSignInSignature(sig: string) {
+  const userSession = await getSession();
+
+  try {
+    await dbConnect();
+
+    await User.findByIdAndUpdate(userSession.userId as string, {
+      signature: sig,
+    });
+
+    userSession.metaSignSignature = sig as string
+
+    await userSession.save()
+
+    return "success";
+  } catch (error) {
+    console.log(error);
+    return "Sorry a problem trying to get the signature";
+  }
+}
+
 export async function createAIBOT(
   prevState: string | object | undefined,
   formData: FormData
@@ -315,9 +351,9 @@ export async function handleSessionCreate(
       $push: { botSession: BabyBotSession._id as string },
     });
 
-    userSession.currentBotSession = BabyBotSession._id as string
+    userSession.currentBotSession = BabyBotSession._id as string;
 
-    await userSession.save()
+    await userSession.save();
 
     revalidatePath(sessoinUrl as string);
 
@@ -328,22 +364,22 @@ export async function handleSessionCreate(
   }
 }
 
-export async function handleSessionUpdate(  prevState: string | object | undefined,
-  formData: string) {
-    const currentUser = await getSession()
+export async function handleSessionUpdate(
+  prevState: string | object | undefined,
+  formData: string
+) {
+  const currentUser = await getSession();
 
-    try {
+  try {
+    currentUser.currentBotSession = formData;
 
-      currentUser.currentBotSession = formData
+    await currentUser.save();
 
-      await currentUser.save()
-      
-      revalidatePath("/sessions")
+    revalidatePath("/sessions");
 
-      return "success"
-      
-    } catch (error) {
-      console.log(error)
-      return "sorry couldnt switch sessions"
-    }
+    return "success";
+  } catch (error) {
+    console.log(error);
+    return "sorry couldnt switch sessions";
+  }
 }

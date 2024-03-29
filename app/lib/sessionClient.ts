@@ -11,6 +11,7 @@ export interface SessionData {
     mainBot?: string;
     currentBotSession?: string;
     metaAccount?: string;
+    metaSignSignature?: string;
     tokens?: Number;
     count?: Number;
     role?: string;

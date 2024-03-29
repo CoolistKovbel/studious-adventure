@@ -12,25 +12,27 @@ interface ClientWrapperProps {
   currentUser: any;
   currenUserBot: any;
   userBots: any;
+  msg: string;
 }
 
 const ClientWrapper = ({
   currentUser,
   userBots,
   currenUserBot,
+  msg,
 }: ClientWrapperProps) => {
-
   const [botId, setBotId] = useState("");
   const searchParams = useSearchParams();
   const selectedBotRef = useRef<any>(null);
+  const mess = msg as string;
 
   const { onOpen } = useModal();
 
   const user = JSON.parse(currentUser);
   const bots = JSON.parse(userBots);
-  const currentBot = JSON.parse(currenUserBot);
+  const currentBot = !!currenUserBot && JSON.parse(currenUserBot);
 
-  const botSessions = currentBot[0].botSession
+  const botSessions = !!currentBot && currentBot[0].botSession;
 
   const handleLinkClick = (type: string) => {
     if (type === "settings") {
@@ -72,10 +74,6 @@ const ClientWrapper = ({
 
     gg();
   }, [botId, searchParams]);
-
-  console.log(bots, "in the client wrapper");
-  console.log(selectedBotRef, "in the client wrapper");
-  console.log(currentBot[0].botSession, "hate my life");
 
   return (
     <div className="h-[740px] w-full flex items-center justify-center gap-4 flex-col md:flex-row">
@@ -164,14 +162,14 @@ const ClientWrapper = ({
         </div>
       )}
 
-      {botId === "edit" && <UserEdit />}
+      {botId === "edit" && <UserEdit msg={mess} deUser={user} />}
 
       {botId === "bot" && (
         <div className="w-full md:w-[60%] h-full bg-[#333] ">
           <h2 className="p-2 text-2xl font-bold">Edit Bot</h2>
 
           <div className="w-full bg-[#222] h-fit drop-shadow-lg p-4">
-            {bots.length > 0 ? (
+            {bots?.length > 0 ? (
               <div className="flex justify-between">
                 {/* Bot select */}
                 <div className="bg-[#111] font-bold w-[20%] flex flex-col items-center justify-around p-4">
@@ -195,15 +193,15 @@ const ClientWrapper = ({
                   <header className="flex items-center justify-between w-[80%] mx-auto">
                     <div className="w-[70%]">
                       <h2 className="text-2xl font-bold">
-                        {currentBot[0].name}
+                        {currentBot[0]?.name}
                       </h2>
                       <p className="text-md text-gray-500">
-                        {currentBot[0].mainPurpose}
+                        {currentBot[0]?.mainPurpose}
                       </p>
                     </div>
 
                     <div className="w-[200px] h-[200px] relative">
-                      <Image src={currentBot[0].image} alt="bot image" fill />
+                      <Image src={currentBot[0]?.image} alt="bot image" fill />
                     </div>
                   </header>
 
@@ -215,13 +213,13 @@ const ClientWrapper = ({
                         <p className="bg-[#000] p-2 rounded-md ">
                           Total Sessions:{" "}
                           <span className="p-1 bg-yellow-500 text-black rounded-sm">
-                            {currentBot[0].botSession.length}
+                            {currentBot[0]?.botSession.length}
                           </span>
                         </p>
                         <p className="bg-[#000] p-2 rounded-md ">
                           Total Searches:{" "}
                           <span className="p-1 bg-yellow-500 text-black rounded-sm">
-                            {currentBot[0].forgeSearch.length}
+                            {currentBot[0]?.forgeSearch.length}
                           </span>
                         </p>
                         <p className="bg-[#000] p-2 rounded-md ">
@@ -234,7 +232,7 @@ const ClientWrapper = ({
                     </div>
 
                     <div className="w-full h-[400px] bg-[#555] p-4">
-                      {currentBot[0].botSession.length > 0 ? (
+                      {currentBot[0]?.botSession.length > 0 ? (
                         <div className="w-full h-full">
                           <h3 className="text-xl font-bold mb-2">
                             Recent sessions
@@ -246,7 +244,6 @@ const ClientWrapper = ({
                                 key={crypto.randomUUID()}
                                 className="flex items-center justify-around bg-[#444] relative"
                               >
-
                                 <div className="flex items-center flex-col justify-center w-[20%]">
                                   <Image
                                     src={item.image}
@@ -269,15 +266,15 @@ const ClientWrapper = ({
                                 >
                                   view session
                                 </Link>
-
                               </div>
                             ))}
                           </div>
-
                         </div>
                       ) : (
                         <div className="w-full h-full flex items-center justify-center">
-                          <h2 className="text-2xl font-bold">sorry no sessions?</h2>
+                          <h2 className="text-2xl font-bold">
+                            sorry no sessions?
+                          </h2>
                         </div>
                       )}
                     </div>
