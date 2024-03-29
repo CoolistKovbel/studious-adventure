@@ -31,7 +31,7 @@ const Page = async () => {
   const allBotSessions = await grabAllBotSessions(Array.isArray(mainBot) && mainBot[0]?._id.toString())
 
   // Get bot type
-  const currentSessionType = currentBabyBot[0].botType;
+  const currentSessionType = currentBabyBot[0].botType ; //TODO: Fix this
   const currentSession = currentSess.length > 0;
 
   const messageData = [
@@ -108,8 +108,7 @@ const Page = async () => {
           {/* Current session ingo */}
           {currentSession ? (
             <article className="w-full bg-[#999]">
-              {/* Current session */}
-              <h2 className="text-2xl font-bold  p-4">Current Session: </h2>
+
               <header className="flex flex-row-reverse w-full items-center justify-center p-4">
 
         
@@ -209,6 +208,7 @@ const Page = async () => {
                       submit
                     </button>
                   </form>
+
                 </div>
               )}
 
@@ -257,7 +257,7 @@ const Page = async () => {
                           <option value="natural">natural</option>
                         </select>
 
-                        <select name="sizes" id="sizes">
+                        <select name="sizes" id="sizes" className="w-full bg-[#000] text-gray-500 p-2">
                           <option value="">Choose size</option>
                           <option value="1024x1024">1024x1024</option>
                           <option value="1792x1024">1792x1024</option>
@@ -413,6 +413,7 @@ const Page = async () => {
                       <div className="w-[300px] h-[300px] bg-[#444] drop-shadow-lg rounded-md"></div>
                     </div>
                   </div>
+
                 </div>
               )}
 

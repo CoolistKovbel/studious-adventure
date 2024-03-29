@@ -18,6 +18,30 @@ const ClientWrapper = ({ currentUser, userBots }: ClientWrapperProps) => {
   const searchParams = useSearchParams();
   const selectedBotRef = useRef<any>(null);
 
+  const botSessions = [
+    {
+      name: "throk",
+      purpose:
+        "smartest math teacher that gives the formula after every problem",
+      image: "/bbS.png",
+    },
+    {
+      name: "brok",
+      purpose: "A friendly companion to help with setting up a node server",
+      image: "/bbS.png",
+    },
+    {
+      name: "derp",
+      purpose: "Helps curiate new recipies with different food items",
+      image: "/bbS.png",
+    },
+    {
+      name: "derp",
+      purpose: "Helps curiate new recipies with different food items",
+      image: "/bbS.png",
+    },
+  ];
+
   const { onOpen } = useModal();
 
   const user = JSON.parse(currentUser);
@@ -48,6 +72,7 @@ const ClientWrapper = ({ currentUser, userBots }: ClientWrapperProps) => {
   };
 
   useEffect(() => {
+
     const gg = () => {
       if (typeof window !== "undefined") {
         const pathname = window.location.href;
@@ -64,6 +89,7 @@ const ClientWrapper = ({ currentUser, userBots }: ClientWrapperProps) => {
     gg();
   }, [botId, searchParams]);
 
+  
   return (
     <div className="h-[740px] w-full flex items-center justify-center gap-4 flex-col md:flex-row">
       {/* Side bar */}
@@ -94,6 +120,7 @@ const ClientWrapper = ({ currentUser, userBots }: ClientWrapperProps) => {
       {/* Content */}
       {!botId && (
         <div className="w-full md:w-[60%] h-full bg-[#333]">
+
           <div className="flex">
             <div className="bg-[#113] p-3 w-[300px] flex items-center justify-center flex-col gap-4 drop-shadow-lg">
               {user.image ? (
@@ -125,6 +152,7 @@ const ClientWrapper = ({ currentUser, userBots }: ClientWrapperProps) => {
 
           {user.mainBot && (
             <div className="bg-[#111] p-10">
+
               <div className="flex items-center justify-between w-[80%] mx-auto">
                 <div className="w-[100px] h-[100px] relative">
                   <Image src={bots[0].image} alt="fucking stupid" fill />
@@ -132,22 +160,24 @@ const ClientWrapper = ({ currentUser, userBots }: ClientWrapperProps) => {
 
                 <div>
                   <h2 className="text-xl font-bold">{bots[0].name}</h2>
-                  <p className="text-sm text-gray-500">{bots[0].mainPurpose}</p>
+                  <p className="text-sm text-gray-500">
+                    {bots[0].mainPurpose}
+                  </p>
                 </div>
               </div>
 
               <div className="w-[40%] mx-auto flex items-center justify-around">
-                <Link
-                  href="/sessions"
-                  className="p-2 bg-[#222] font-bold rounded-md"
-                >
+
+                <Link href="/sessions" className="p-2 bg-[#222] font-bold rounded-md">
                   Get back to session
                 </Link>
 
-                <CreateToggle hasBot={bots[0]} />
+                <CreateToggle hasBot={bots[0]}/>
+
               </div>
             </div>
           )}
+
         </div>
       )}
 
@@ -163,15 +193,15 @@ const ClientWrapper = ({ currentUser, userBots }: ClientWrapperProps) => {
                 {/* Bot select */}
                 <div className="bg-[#111] font-bold w-[20%] flex flex-col items-center justify-around p-4">
                   <div className="h-[80%] overflow-auto">
-                    {bots.map((item: any) => (
-                      <Link
-                        key={crypto.randomUUID()}
-                        className="bg-[#131] p-2 block hover:bg-[#222]  mb-2 rounded-md"
-                        href={`/settings/?type=bot&currentBot=${item._id}`}
-                      >
-                        {item.name}
-                      </Link>
-                    ))}
+                  {bots.map((item: any) => (
+                    <Link
+                      key={crypto.randomUUID()}
+                      className="bg-[#131] p-2 block hover:bg-[#222]  mb-2 rounded-md"
+                      href={`/settings/?type=bot&currentBot=${item._id}`}
+                    >
+                      {item.name}
+                    </Link>
+                  ))}
                   </div>
 
                   <CreateToggle hasBot={bots} />
