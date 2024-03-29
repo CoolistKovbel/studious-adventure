@@ -233,7 +233,7 @@ export async function createAIBOT(
       const fileBuffer = await (botImage as File).arrayBuffer();
       const buffer = Buffer.from(fileBuffer);
       // set path
-      const path = `${process.cwd()}/public/profileImage/${
+      const path = `${process.cwd()}/public/profileBOTImage/${
         crypto.randomUUID() + botImage.name
       }`;
       // Write image
@@ -314,6 +314,10 @@ export async function handleSessionCreate(
     await Bot.findByIdAndUpdate(userSession.mainBot as string, {
       $push: { botSession: BabyBotSession._id as string },
     });
+
+    userSession.currentBotSession = BabyBotSession._id as string
+
+    await userSession.save()
 
     revalidatePath(sessoinUrl as string);
 

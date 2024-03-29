@@ -119,6 +119,7 @@ const Page = async () => {
           {/* Current session ingo */}
           {currentSession ? (
             <article className="w-full bg-[#999]">
+              
               <header className="flex flex-row-reverse w-full items-center justify-center p-4">
                 <div className="w-[100px] h-[100px] relative">
                   <Image

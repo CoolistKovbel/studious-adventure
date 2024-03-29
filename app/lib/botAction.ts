@@ -21,7 +21,7 @@ export const grabSpecificBot = async (currentBotId: any) => {
     await dbConnect();
 
     // Maybe populate
-    const mainBot = await Bot.find({ _id: currentBotId as string });
+    const mainBot = await Bot.find({ _id: currentBotId as string }).populate("botSession");
 
     return mainBot;
   } catch (error) {

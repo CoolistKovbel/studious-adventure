@@ -14,40 +14,23 @@ interface ClientWrapperProps {
   userBots: any;
 }
 
-const ClientWrapper = ({ currentUser, userBots, currenUserBot }: ClientWrapperProps) => {
+const ClientWrapper = ({
+  currentUser,
+  userBots,
+  currenUserBot,
+}: ClientWrapperProps) => {
+
   const [botId, setBotId] = useState("");
   const searchParams = useSearchParams();
   const selectedBotRef = useRef<any>(null);
-
-  const botSessions = [
-    {
-      name: "throk",
-      purpose:
-        "smartest math teacher that gives the formula after every problem",
-      image: "/bbS.png",
-    },
-    {
-      name: "brok",
-      purpose: "A friendly companion to help with setting up a node server",
-      image: "/bbS.png",
-    },
-    {
-      name: "derp",
-      purpose: "Helps curiate new recipies with different food items",
-      image: "/bbS.png",
-    },
-    {
-      name: "derp",
-      purpose: "Helps curiate new recipies with different food items",
-      image: "/bbS.png",
-    },
-  ];
 
   const { onOpen } = useModal();
 
   const user = JSON.parse(currentUser);
   const bots = JSON.parse(userBots);
-  const currentBot = JSON.parse(currenUserBot)
+  const currentBot = JSON.parse(currenUserBot);
+
+  const botSessions = currentBot[0].botSession
 
   const handleLinkClick = (type: string) => {
     if (type === "settings") {
@@ -74,7 +57,6 @@ const ClientWrapper = ({ currentUser, userBots, currenUserBot }: ClientWrapperPr
   };
 
   useEffect(() => {
-
     const gg = () => {
       if (typeof window !== "undefined") {
         const pathname = window.location.href;
@@ -91,14 +73,12 @@ const ClientWrapper = ({ currentUser, userBots, currenUserBot }: ClientWrapperPr
     gg();
   }, [botId, searchParams]);
 
+  console.log(bots, "in the client wrapper");
+  console.log(selectedBotRef, "in the client wrapper");
+  console.log(currentBot[0].botSession, "hate my life");
 
-  console.log(bots, 'in the client wrapper')
-  console.log(selectedBotRef, 'in the client wrapper')
-  console.log(currentBot, "hate my life")
-  
   return (
     <div className="h-[740px] w-full flex items-center justify-center gap-4 flex-col md:flex-row">
-
       {/* Side bar */}
       <div className="w-full md:w-[20%] h-full bg-[#333] ">
         <h2 className="text-xl font-bold p-2 underline">{user.username}</h2>
@@ -127,7 +107,6 @@ const ClientWrapper = ({ currentUser, userBots, currenUserBot }: ClientWrapperPr
       {/* Content */}
       {!botId && (
         <div className="w-full md:w-[60%] h-full bg-[#333]">
-
           <div className="flex">
             <div className="bg-[#113] p-3 w-[300px] flex items-center justify-center flex-col gap-4 drop-shadow-lg">
               {user.image ? (
@@ -159,7 +138,6 @@ const ClientWrapper = ({ currentUser, userBots, currenUserBot }: ClientWrapperPr
 
           {user.mainBot && (
             <div className="bg-[#111] p-10">
-
               <div className="flex items-center justify-between w-[80%] mx-auto">
                 <div className="w-[100px] h-[100px] relative">
                   <Image src={bots[0].image} alt="fucking stupid" fill />
@@ -167,29 +145,26 @@ const ClientWrapper = ({ currentUser, userBots, currenUserBot }: ClientWrapperPr
 
                 <div>
                   <h2 className="text-xl font-bold">{bots[0].name}</h2>
-                  <p className="text-sm text-gray-500">
-                    {bots[0].mainPurpose}
-                  </p>
+                  <p className="text-sm text-gray-500">{bots[0].mainPurpose}</p>
                 </div>
               </div>
 
               <div className="w-[40%] mx-auto flex items-center justify-around">
-
-                <Link href="/sessions" className="p-2 bg-[#222] font-bold rounded-md">
+                <Link
+                  href="/sessions"
+                  className="p-2 bg-[#222] font-bold rounded-md"
+                >
                   Get back to session
                 </Link>
 
-                <CreateToggle hasBot={bots[0]}/>
-
+                <CreateToggle hasBot={bots[0]} />
               </div>
             </div>
           )}
-
         </div>
       )}
 
       {botId === "edit" && <UserEdit />}
-
 
       {botId === "bot" && (
         <div className="w-full md:w-[60%] h-full bg-[#333] ">
@@ -198,19 +173,18 @@ const ClientWrapper = ({ currentUser, userBots, currenUserBot }: ClientWrapperPr
           <div className="w-full bg-[#222] h-fit drop-shadow-lg p-4">
             {bots.length > 0 ? (
               <div className="flex justify-between">
-
                 {/* Bot select */}
                 <div className="bg-[#111] font-bold w-[20%] flex flex-col items-center justify-around p-4">
                   <div className="h-[80%] overflow-auto">
-                  {bots.map((item: any) => (
-                    <Link
-                      key={crypto.randomUUID()}
-                      className="bg-[#131] p-2 block hover:bg-[#222]  mb-2 rounded-md"
-                      href={`/settings/?type=bot&currentBot=${item._id}`}
-                    >
-                      {item.name}
-                    </Link>
-                  ))}
+                    {bots.map((item: any) => (
+                      <Link
+                        key={crypto.randomUUID()}
+                        className="bg-[#131] p-2 block hover:bg-[#222]  mb-2 rounded-md"
+                        href={`/settings/?type=bot&currentBot=${item._id}`}
+                      >
+                        {item.name}
+                      </Link>
+                    ))}
                   </div>
 
                   <CreateToggle hasBot={bots} />
@@ -220,9 +194,11 @@ const ClientWrapper = ({ currentUser, userBots, currenUserBot }: ClientWrapperPr
                 <div className="bg-[#111] p-2 w-[70%] h-fit p-10">
                   <header className="flex items-center justify-between w-[80%] mx-auto">
                     <div className="w-[70%]">
-                      <h2 className="text-2xl font-bold">{currentBot[0].name}</h2>
+                      <h2 className="text-2xl font-bold">
+                        {currentBot[0].name}
+                      </h2>
                       <p className="text-md text-gray-500">
-                      {currentBot[0].mainPurpose}
+                        {currentBot[0].mainPurpose}
                       </p>
                     </div>
 
@@ -232,19 +208,20 @@ const ClientWrapper = ({ currentUser, userBots, currenUserBot }: ClientWrapperPr
                   </header>
 
                   <div className="p-4 ">
+                    {/* bot Stats */}
                     <div>
                       <h3 className="text-xl font-bold">Stats</h3>
                       <div className="flex items-center justify-around w-full p-4">
                         <p className="bg-[#000] p-2 rounded-md ">
                           Total Sessions:{" "}
                           <span className="p-1 bg-yellow-500 text-black rounded-sm">
-                            12
+                            {currentBot[0].botSession.length}
                           </span>
                         </p>
                         <p className="bg-[#000] p-2 rounded-md ">
                           Total Searches:{" "}
                           <span className="p-1 bg-yellow-500 text-black rounded-sm">
-                            122
+                            {currentBot[0].forgeSearch.length}
                           </span>
                         </p>
                         <p className="bg-[#000] p-2 rounded-md ">
@@ -257,41 +234,55 @@ const ClientWrapper = ({ currentUser, userBots, currenUserBot }: ClientWrapperPr
                     </div>
 
                     <div className="w-full h-[400px] bg-[#555] p-4">
-                      <h3 className="text-xl font-bold mb-2">
-                        Recent sessions
-                      </h3>
+                      {currentBot[0].botSession.length > 0 ? (
+                        <div className="w-full h-full">
+                          <h3 className="text-xl font-bold mb-2">
+                            Recent sessions
+                          </h3>
 
-                      <div className="w-full h-[90%] bg-[#111] p-4 overflow-auto flex flex-col gap-2 ">
-                        {botSessions.map((item: any) => (
-                          <div
-                            key={crypto.randomUUID()}
-                            className="flex items-center justify-around bg-[#444] relative"
-                          >
-                            <div className="flex items-center flex-col justify-center w-[20%]">
-                              <Image
-                                src={item.image}
-                                alt="hate my life"
-                                width={100}
-                                height={100}
-                              />
-                              <h2 className="font-bold text-xl">{item.name}</h2>
-                            </div>
+                          <div className="w-full h-[90%] bg-[#111] p-4 overflow-auto flex flex-col gap-2 ">
+                            {botSessions.map((item: any) => (
+                              <div
+                                key={crypto.randomUUID()}
+                                className="flex items-center justify-around bg-[#444] relative"
+                              >
 
-                            <p className="w-[80%] text-sm">{item.purpose}</p>
+                                <div className="flex items-center flex-col justify-center w-[20%]">
+                                  <Image
+                                    src={item.image}
+                                    alt="hate my life"
+                                    width={100}
+                                    height={100}
+                                  />
+                                  <h2 className="font-bold text-xl">
+                                    {item.name}
+                                  </h2>
+                                </div>
 
-                            <Link
-                              href="/sessions"
-                              className="absolute text-sm p-1 bg-[#222] font-bold  bottom-0 right-0 hover:bg-[#111] rounded-sm"
-                            >
-                              view session
-                            </Link>
+                                <p className="w-[80%] text-sm">
+                                  {item.mainPurpose}
+                                </p>
+
+                                <Link
+                                  href="/sessions"
+                                  className="absolute text-sm p-1 bg-[#222] font-bold  bottom-0 right-0 hover:bg-[#111] rounded-sm"
+                                >
+                                  view session
+                                </Link>
+
+                              </div>
+                            ))}
                           </div>
-                        ))}
-                      </div>
+
+                        </div>
+                      ) : (
+                        <div className="w-full h-full flex items-center justify-center">
+                          <h2 className="text-2xl font-bold">sorry no sessions?</h2>
+                        </div>
+                      )}
                     </div>
                   </div>
                 </div>
-
               </div>
             ) : (
               <div className="p-2 w-full">
@@ -300,17 +291,8 @@ const ClientWrapper = ({ currentUser, userBots, currenUserBot }: ClientWrapperPr
               </div>
             )}
           </div>
-
-          
         </div>
       )}
-
-
-
-
-
-
-
     </div>
   );
 };
