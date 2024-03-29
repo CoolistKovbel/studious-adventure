@@ -10,8 +10,8 @@ interface SessionOptionsProps {
 }
 
 const SessionOptions = ({ hasBot, botSessions }: SessionOptionsProps) => {
-  const recentSessions = hasBot;
-  const botSession = botSessions;
+  const recentSessions = JSON.parse(hasBot);
+  const botSession = JSON.parse(botSessions);
 
   const [state, dispatch] = useFormState(handleSessionUpdate, undefined);
 

@@ -3,7 +3,7 @@
  *
  * @type {string[]}
  */
-export const publicRoutes = ["/", "/about", "/contact", "/price", "/faucet", "/register", "/login"];
+export const publicRoutes = ["/", "/about", "/contact", "/faucet", "/register", "/login"];
 
 /**
  * API authentication routes
@@ -16,10 +16,10 @@ export const apiAuthPrefix = "/api/auth";
  * The default redirect path after logging in
  * @type {string}
  */
-export const DEFAULT_LOGIN_REDIRECT = "/profile";
+export const DEFAULT_LOGIN_REDIRECT = "/dashboard";
 
 /**
- * The Contract Address for the nft Minting collection
+ * The Contract Address for the 
  * @type {string}
  */
-export const contractAddress = "0xB6BCdC8F6f40561AEc2ef0e765bAfFf4afA71283";
+export const contractAddress = "";
