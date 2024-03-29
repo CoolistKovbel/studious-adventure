@@ -1,6 +1,7 @@
+import CreateToggle from "@/app/components/create-toggle";
 import SessionOptions from "@/app/components/sessions/session-options";
 import { getSession } from "@/app/lib/actions";
-import { grabSpecificBot, grabSpecificBotSession } from "@/app/lib/botAction";
+import { grabAllBotSessions, grabSpecificBot, grabSpecificBotSession } from "@/app/lib/botAction";
 import Image from "next/image";
 
 const Page = async () => {
@@ -8,14 +9,16 @@ const Page = async () => {
   const currentUser = await getSession();
   // grab current bot
   const mainBot = await grabSpecificBot(currentUser.mainBot as string);
-
+  const passable = JSON.stringify(mainBot)
   // grab current session
   const currentSess = await grabSpecificBotSession(
     Array.isArray(mainBot) && mainBot[0]?._id.toString()
   );
 
-  const currentSessionType = "SCRAPE";
-  const currentSession = false;
+  const allBotSessions = await grabAllBotSessions(Array.isArray(mainBot) && mainBot[0]?._id.toString())
+
+  const currentSessionType = currentSess[0].botType;
+  const currentSession = currentSess.length > 0;
 
   const messageData = [
     {
@@ -57,6 +60,8 @@ const Page = async () => {
   ];
 
 
+  console.log(allBotSessions, "all the bot sessoins")
+
   return (
     <main className="w-full min-h-screen bg-[#222] flex p-2">
       {mainBot ? (
@@ -79,7 +84,7 @@ const Page = async () => {
                 </p>
 
                 {/* change session */}
-                <SessionOptions hasBot={JSON.stringify(mainBot)} />
+                <SessionOptions hasBot={passable}  botSessions={JSON.stringify(allBotSessions)}/>
               </div>
               
             </div>
@@ -501,9 +506,7 @@ const Page = async () => {
               <h2 className="text-2xl font-bold capitalize">
                 No session need to start one?
               </h2>
-              <button className="bg-[#111] font-bold p-1 rounded-md">
-                Start one now
-              </button>
+              <CreateToggle hasBot={passable} />
             </article>
           )}
         </section>

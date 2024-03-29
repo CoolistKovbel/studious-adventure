@@ -12,6 +12,7 @@ import { sendMail } from "./mail";
 import { writeFile } from "fs/promises";
 import { revalidatePath } from "next/cache";
 import { Bot } from "../models/Bot";
+import { BotBaby } from "../models/BotBaby";
 
 export const getSession = async () => {
   const session = await getIronSession<SessionData>(cookies(), sessionOptions);
@@ -246,23 +247,26 @@ export async function createAIBOT(
       name: botName as string,
       mainPurpose: botPurpose as string,
       image: rest,
-      botParent: currentSession.userId as string
-    }
+      botParent: currentSession.userId as string,
+    };
 
-    const newBot = new Bot(payload)
+    const newBot = new Bot(payload);
 
-    await newBot.save()
+    await newBot.save();
 
-    await User.findByIdAndUpdate(currentSession.userId as string, {mainBot: newBot._id}, {
-      runValidators: true,
-    });
+    await User.findByIdAndUpdate(
+      currentSession.userId as string,
+      { mainBot: newBot._id },
+      {
+        runValidators: true,
+      }
+    );
 
-    currentSession.mainBot = newBot._id as string
+    currentSession.mainBot = newBot._id as string;
 
-    await currentSession.save()
+    await currentSession.save();
 
-    revalidatePath(sessoinUrl as string)
-
+    revalidatePath(sessoinUrl as string);
 
     return "success";
   } catch (error) {
@@ -274,15 +278,48 @@ export async function createAIBOT(
 export async function handleSessionCreate(
   prevState: string | object | undefined,
   formData: FormData
-) { 
+) {
+  let rest;
+  const userSession = await getSession();
+  const { botName, botPurpose, sessoinUrl, botType } =
+    Object.fromEntries(formData);
 
+  const BotImage = formData.get("botImage") as File;
 
   try {
-    
-    return "success"
-  } catch (error) {
-    console.log(error)
-    return "failed"
-  }
+    await dbConnect();
 
+    if (BotImage !== null && BotImage.size !== 0) {
+      const fileBuffer = await (BotImage as File).arrayBuffer();
+      const buffer = Buffer.from(fileBuffer);
+      // set path
+      const path = `${process.cwd()}/public/BabyBotImage/${
+        crypto.randomUUID() + BotImage.name
+      }`;
+      // Write image
+      await writeFile(path, buffer);
+
+      rest = path.split(`${process.cwd()}/public`)[1];
+    }
+
+    const BabyBotSession = new BotBaby({
+      name: botName as string,
+      mainPurpose: botPurpose as string,
+      image: rest,
+      botType: botType as string,
+    });
+
+    await BabyBotSession.save();
+
+    await Bot.findByIdAndUpdate(userSession.mainBot as string, {
+      $push: { botSession: BabyBotSession._id as string },
+    });
+
+    revalidatePath(sessoinUrl as string);
+
+    return "success";
+  } catch (error) {
+    console.log(error);
+    return "failed";
+  }
 }

@@ -4,14 +4,15 @@ import CreateToggle from "../create-toggle";
 
 interface SessionOptionsProps {
   hasBot: any;
+  botSessions: any;
 }
 
-const SessionOptions = ({ hasBot }: SessionOptionsProps) => {
+const SessionOptions = ({ hasBot, botSessions }: SessionOptionsProps) => {
 
   const recentSessions = JSON.parse(hasBot)
+  const botSession = JSON.parse(botSessions)
 
-  console.log(recentSessions[0].botSession, "in the sessoins options")
-  console.log(Array.isArray(recentSessions[0].botSession), "in the sessoins options")
+  console.log(botSession, "in session")
 
 
   return (
@@ -27,9 +28,14 @@ const SessionOptions = ({ hasBot }: SessionOptionsProps) => {
             id="recentSession"
             className="p-1 rounded-md bg-[#222] font-bold p-1"
           >
-            <option value="">recent sessions</option>
-            <option value="">recent sessions</option>
-            <option value="">recent sessions</option>
+            <option value="">Choose session</option>
+            {
+              botSession.map((item:any) => (
+                <option key={crypto.randomUUID()} value={item._id as string}>
+                  {item.name}
+                </option>
+              ))
+            }
           </select>
         </form>
       )

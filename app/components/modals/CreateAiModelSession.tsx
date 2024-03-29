@@ -3,6 +3,7 @@
 import { useModal } from "@/app/hooks/use-modal-store";
 import { handleSessionCreate } from "@/app/lib/actions";
 import Image from "next/image";
+import { useEffect } from "react";
 import { useFormState } from "react-dom";
 
 
@@ -34,6 +35,12 @@ const CreateAIModelSession = () => {
   const handleClose = () => {
     onClose();
   };
+
+  useEffect(() => {
+    if (state === "success") {
+      onClose();
+    }
+  }, [state, onClose]);
 
   return (
     <div
@@ -75,46 +82,50 @@ const CreateAIModelSession = () => {
             onSubmit={handleSubmit}
             className="flex flex-col items-center justify-center bg-gray-900 p-6 rounded-lg shadow-lg "
           >
+
             <label htmlFor="botName" className="text-white text-lg mb-2">
               Bot Name
-            </label>
-            <input
+              <input
               type="text"
               className="w-full bg-gray-800 text-white rounded-md py-2 px-4 mb-4 focus:outline-none focus:ring focus:border-blue-300"
               placeholder="Enter bot name"
               name="botName"
               id="botName"
             />
+            </label>
 
-            <label htmlFor="mainPurpose" className="text-white text-lg mb-2">
+
+            <label htmlFor="botPurpose" className="text-white text-lg mb-2">
               Bot Purpose
             </label>
             <textarea
               placeholder="Enter bot purpose"
-              name="mainPurpose"
-              id="mainPurpose"
+              name="botPurpose"
+              id="botPurpose"
               className="w-full h-32 bg-gray-800 text-white rounded-md py-2 px-4 mb-4 resize-none focus:outline-none focus:ring focus:border-blue-300"
             ></textarea>
 
             <label htmlFor="image" className="text-white text-lg mb-2">
               Bot Image
-            </label>
+            
             <input
               type="file"
-              name="image"
-              id="image"
+              name="botImage"
+              id="botImage"
               className="w-full bg-gray-800 text-white rounded-md py-2 px-4 mb-4 focus:outline-none focus:ring focus:border-blue-300"
             />
+            </label>
 
             <label htmlFor="botType" className="text-white text-lg mb-2">
               Bot Type
-            </label>
-            <select name="botType" id="botType" className="w-full bg-gray-800 text-white rounded-md py-2 px-4 mb-4 focus:outline-none focus:ring focus:border-blue-300">
+              <select name="botType" id="botType" className="w-full bg-gray-800 text-white rounded-md py-2 px-4 mb-4 focus:outline-none focus:ring focus:border-blue-300">
               <option value="----">TYPE</option>
               <option value="CHAT">CHAT</option>
               <option value="PHOTO">PHOTO</option>
               <option value="SCRAPE">SCRAPE</option>
             </select>
+            </label>
+           
 
             <button
               type="submit"

@@ -30,15 +30,29 @@ export const grabSpecificBot = async (currentBotId: any) => {
 
 export const grabSpecificBotSession = async (mainBotId: any) => {
   try {
-    console.log(mainBotId);
 
     const mainBot = await Bot.findOne({ _id: mainBotId as string }).populate("botSession");
 
-    console.log(mainBot?.botSession)
+    const latestSession = mainBot?.botSession.sort((a:any, b:any) => new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime())[0];
 
-    return [];
+    return [latestSession];
   } catch (error) {
     console.log(error);
     return "sorry cant seem to grab bot session";
   }
 };
+
+export const grabAllBotSessions = async (mainBotId: string) => {
+  try {
+
+    await dbConnect()
+
+    const mainbotSessions  = await Bot.findOne({ _id: mainBotId as string }).populate("botSession");
+
+    return mainbotSessions?.botSession
+    
+  } catch (error) {
+    console.log(error)
+    return "Error grabbing users"
+  }
+}
