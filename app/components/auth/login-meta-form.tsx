@@ -5,12 +5,14 @@ import { getEthereumAccount } from "@/app/lib/web3";
 import { metaLogin } from "@/app/lib/actions";
 import { useFormState } from "react-dom";
 import { ethers } from "ethers";
+import { useRouter } from "next/navigation";
 
 interface LoginMetaFormProps {
   msg: string;
 }
 
 const LoginMetaForm = ({ msg }: LoginMetaFormProps) => {
+  const router = useRouter();
   const [metaAccount, setMetaAccount] = useState<any>("");
   const [state, dispatch] = useFormState(metaLogin, undefined);
   const mess = msg as string;
@@ -37,6 +39,8 @@ const LoginMetaForm = ({ msg }: LoginMetaFormProps) => {
       const ethAccount = await getEthereumAccount();
       setMetaAccount(ethAccount);
     };
+
+    if (state?.startsWith("success")) router.push("/dashboard");
 
     xx();
   }, [state]);
