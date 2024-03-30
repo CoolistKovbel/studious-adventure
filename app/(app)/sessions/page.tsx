@@ -21,6 +21,8 @@ const Page = async () => {
   // grab current bot
   const mainBot = await grabSpecificBot(currentUser.mainBot as string);
 
+  // ====================================
+
   const passable = JSON.stringify(mainBot);
 
   // grab current session
@@ -86,7 +88,7 @@ const Page = async () => {
     },
   ];
 
-  console.log(mainBot, "the current bab");
+  console.log(currentUser, "the current bab");
 
   return (
     <main className="w-full min-h-screen bg-[#222] flex p-2">
@@ -119,7 +121,6 @@ const Page = async () => {
           {/* Current session ingo */}
           {currentSession ? (
             <article className="w-full bg-[#999]">
-              
               <header className="flex flex-row-reverse w-full items-center justify-center p-4">
                 <div className="w-[100px] h-[100px] relative">
                   <Image

@@ -17,7 +17,7 @@ const AuthNav = ({currrentSession}:AuthNavProps) => {
     <header className="w-full flex items-center justify-between p-4 bg-[#000]">
 
       <h1>
-        <Link href="/dashboard">AI Service</Link>
+        <Link href="/dashboard">MindCraft AI</Link>
       </h1>
 
       <nav className="relative">

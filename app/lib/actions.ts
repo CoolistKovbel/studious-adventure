@@ -204,8 +204,8 @@ export async function HandleUserUpdate(
       await writeFile(path, buffer);
       rest = path.split(`${process.cwd()}/public`)[1];
 
-      sessionUser.image = rest;
-      updateFields.image = rest;
+      sessionUser.userImage = rest;
+      updateFields.userImage = rest;
     }
 
     let newPassword;
@@ -292,7 +292,7 @@ export async function createAIBOT(
 
     await User.findByIdAndUpdate(
       currentSession.userId as string,
-      { mainBot: newBot._id },
+      {$push: {mainBot: newBot._id} },
       {
         runValidators: true,
       }

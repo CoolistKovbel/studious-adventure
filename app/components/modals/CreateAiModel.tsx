@@ -48,7 +48,7 @@ const CreateAIModel = () => {
     >
       <div className="bg-[#222] rounded-md p-4 w-[300px] md:w-[600px] overflow-auto h-[50%]">
         {/* close button */}
-        <button className="absolute top-10 right-10" onClick={handleClose}>
+        <button className="absolute top-10 left-10" onClick={handleClose}>
           <svg
             xmlns="http://www.w3.org/2000/svg"
             className="h-6 w-6 text-[#f4f4f4]"

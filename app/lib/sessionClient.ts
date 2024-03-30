@@ -7,7 +7,7 @@ export interface SessionData {
     userId?: string;
     username?: string;
     email?: string;
-    image?: string;
+    userImage?: string;
     mainBot?: string;
     currentBotSession?: string;
     metaAccount?: string;

@@ -113,9 +113,9 @@ const ClientWrapper = ({
         <div className="w-full md:w-[60%] h-full bg-[#333]">
           <div className="flex">
             <div className="bg-[#113] p-3 w-[300px] flex items-center justify-center flex-col gap-4 drop-shadow-lg">
-              {user.image ? (
+              {user.userImage ? (
                 <div className="w-[100px] h-[100px] relative">
-                  <Image src={user.image} alt="user profile image" fill />
+                  <Image src={user.userImage} alt="user profile image" fill />
                 </div>
               ) : (
                 <div className="w-[100px] h-[100px] flex items-center justify-center">

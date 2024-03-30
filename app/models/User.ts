@@ -5,7 +5,7 @@ interface IUser {
   username: string;
   email: string;
   password: string;
-  image: string;
+  userImage: string;
   role: string;
   isPro: boolean;
   metaAddress: string;
@@ -48,7 +48,7 @@ const UserSchema = new mongoose.Schema<IUser>(
       type: Number,
       default: 0
     },
-    image: {
+    userImage: {
       type: String,
     },
     metaAddress: {
