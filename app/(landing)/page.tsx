@@ -57,7 +57,25 @@ export default function Home() {
         </div>
 
         <Carousel images={aiImages} />
-        
+
+      </div>
+
+
+      <div className="w-full h-[720px] p-3 bg-[#333] flex items-center justify-around my-10">
+
+        <div className="text-center">
+
+          <h2 className="text-2xl md:text-4xl font-bold">Need an extra hand with your project?</h2>
+          <p>
+            Get yourself situated with your own bot. That you will be able to use for your next project. Either get more in depth information about a specfic web page, generate images for your next collage, or have an all out conversation about a certain topic. 
+          </p>
+          
+
+        </div>
+
+
+
+
       </div>
 
     </main>

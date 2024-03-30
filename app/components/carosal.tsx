@@ -16,11 +16,11 @@ export const Carousel = ({ images }: any) => {
     };
   
     return (
-      <div className="relative w-[300px]">
+      <div className="relative w-[400px]">
 
         <div className="overflow-hidden">
 
-          <div className="flex relative w-[300px] h-full  mx-auto transition-transform duration-300 ease-in-out transform -translate-x-full">
+          <div className="flex relative w-[400px] h-full  mx-auto transition-transform duration-300 ease-in-out transform -translate-x-full">
             {images.map((image: any, index: any) => (
               <div key={index} className="flex items-center gap-4 w-full h-[400px]">
                 <Image
