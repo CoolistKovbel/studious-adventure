@@ -63,16 +63,20 @@ export default function Home() {
 
       <div className="w-full h-[720px] p-3 bg-[#333] flex items-center justify-around my-10">
 
-        <div className="text-center">
+        <div className="text-center w-[35%]">
 
-          <h2 className="text-2xl md:text-4xl font-bold">Need an extra hand with your project?</h2>
-          <p>
+          <h2 className="text-2xl md:text-4xl font-bold mb-4">Need an extra hand with your project?</h2>
+          <p className="mb-3">
             Get yourself situated with your own bot. That you will be able to use for your next project. Either get more in depth information about a specfic web page, generate images for your next collage, or have an all out conversation about a certain topic. 
           </p>
-          
+          <Link href="/register" className="p-2 bg-[#222] hover:bg-[#111] rounded-md font-bold drop-shadow-lg">Get Started</Link>
 
         </div>
 
+
+        <div className="bg-[#444] w-[300px] h-[300px]">
+
+        </div>
 
 
 

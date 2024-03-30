@@ -13,6 +13,8 @@ const Page = async () => {
     currenUserBot = await grabSpecificBot(session.mainBot);
   }
 
+  console.log(session)
+
   return (
     <main className="w-full min-h-screen bg-[#212] flex items-center justify-center">
       {/* Possible client wrapper */}

@@ -21,18 +21,21 @@ const ClientWrapper = ({
   currenUserBot,
   msg,
 }: ClientWrapperProps) => {
+
   const [botId, setBotId] = useState("");
   const searchParams = useSearchParams();
   const selectedBotRef = useRef<any>(null);
-  const mess = msg as string;
-
   const { onOpen } = useModal();
 
+  
+  const mess = msg as string;
   const user = JSON.parse(currentUser);
   const bots = JSON.parse(userBots);
-  const currentBot = !!currenUserBot && JSON.parse(currenUserBot);
+  const currentBot = !!currenUserBot ? JSON.parse(currenUserBot) : bots[0];
 
-  const botSessions = !!currentBot && currentBot[0].botSession;
+  const botSessions = !!currentBot
+    ? currentBot[0].botSession
+    : bots[0].botSession;
 
   const handleLinkClick = (type: string) => {
     if (type === "settings") {
@@ -74,6 +77,8 @@ const ClientWrapper = ({
 
     gg();
   }, [botId, searchParams]);
+
+  console.log(currentBot);
 
   return (
     <div className="h-[740px] w-full flex items-center justify-center gap-4 flex-col md:flex-row">
@@ -290,6 +295,8 @@ const ClientWrapper = ({
           </div>
         </div>
       )}
+
+      
     </div>
   );
 };
