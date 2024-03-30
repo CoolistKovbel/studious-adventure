@@ -1,44 +1,64 @@
 import Image from "next/image";
 import Link from "next/link";
+import { Carousel } from "../components/carosal";
 
 export default function Home() {
 
+  const aiImages = [
+    {
+      url: "/bbS.png"
+    },
+    {
+      url: "/forged.png"
+    },
+    {
+      url: "/pp.jpg"
+    }
+  ]
 
 
   return (
-    <main className="w-full min-h-screen bg-[#111] text-color">
+    <main className="w-full min-h-screen bg-[#999] text-color">
 
+      {/* Stupid header  */}
       <header className="flex items-center justify-between p-4">
 
-        <div className="flex items-center">
-          <h1 className="font-bold text-xl">deLeftHand</h1>
-          <Image src="/ai-server-logo.png" alt="server ai logo" width={100} height={100} />
-        </div>
+        <nav className="flex items-center gap-4 w-full justify-between ">
+          <div className="w-[15%] flex items-center justify-between">
+            <Link href="/about" className="p-2 bg-[#222] rounded-md font-bold drop-shadow-lg">About</Link>
+            <Link href="/contact" className="p-2 bg-[#222] rounded-md font-bold drop-shadow-lg">Contact</Link>
+            <Link href="/faucet" className="p-2 bg-[#222] rounded-md font-bold drop-shadow-lg">Faucet</Link>
+          </div>
 
-        <nav className="flex items-center gap-4 ">
-          <Link href="/about" className="p-2 bg-[#222] rounded-md font-bold drop-shadow-lg">About</Link>
-          <Link href="/contact" className="p-2 bg-[#222] rounded-md font-bold drop-shadow-lg">Contact</Link>
-          <Link href="/faucet" className="p-2 bg-[#222] rounded-md font-bold drop-shadow-lg">Faucet</Link>
-          <div>
+
+          <div className="flex items-center">
+            <h1 className="font-bold text-xl">deLeftHand</h1>
+            <Image src="/ai-server-logo.png" alt="server ai logo" width={100} height={100} />
+           </div>
+
+
+
+          <div className="w-[10%] flex items-center justify-between">
             <Link  href="/login"className="p-2 bg-[#333] mr-2 rounded-md font-bold drop-shadow-lg">Login</Link>
             <Link href="/register"className="p-2 bg-[#333] rounded-md font-bold drop-shadow-lg">Register</Link>
           </div>
+
         </nav>
 
       </header>
 
 
-      <div className="w-full h-[320px] p-3 bg-[#333] flex items-center justify-center">
-        <div className="text-center"> 
-          <h2 className="text-2xl font-bold capitalize">Tired of Looking for thing?</h2>
-          <p className="text-sm text-gray-500">Get started today with your own assistant</p>
-        </div>
-      </div>
+      <div className="w-full h-[720px] p-3 bg-[#333] flex items-center justify-around my-10">
 
-      <section className="p-4">
-        <p className="text-center text-sm">Get your situated with web3 quick and easy. Once connected you will be able connect to the app seemsly and use your bot easily.</p>
-      </section>
-      
+        <div className="text-center"> 
+          <h2 className="text-2xl md:text-4xl font-bold capitalize mb-2">Tired of looking when the answer is right in front you?</h2>
+          <p className="text-md text-gray-500 mb-4">Get started today with your own bot or assistant</p>
+          <Link href="/register" className="p-2 bg-[#111] hover:bg-[#222] rounded-md font-bold drop-shadow-lg inline-block">Get Started now</Link>
+        </div>
+
+        <Carousel images={aiImages} />
+        
+      </div>
 
     </main>
   );
