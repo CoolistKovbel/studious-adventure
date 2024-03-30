@@ -7,6 +7,8 @@ import { useModal } from "@/app/hooks/use-modal-store";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import CreateToggle from "../create-toggle";
+import { handleSessionUpdate } from "@/app/lib/actions";
+import { useFormState } from "react-dom";
 
 interface ClientWrapperProps {
   currentUser: any;
@@ -21,22 +23,19 @@ const ClientWrapper = ({
   currenUserBot,
   msg,
 }: ClientWrapperProps) => {
-
+  const [state, dispatch] = useFormState(handleSessionUpdate, undefined);
   const [botId, setBotId] = useState("");
   const searchParams = useSearchParams();
-  
+
   const selectedBotRef = useRef<any>(null);
   const { onOpen } = useModal();
 
-  
   const mess = msg as string;
   const user = JSON.parse(currentUser);
   const bots = JSON.parse(userBots);
   const currentBot = !!currenUserBot ? JSON.parse(currenUserBot) : bots[0];
 
-  // const botSessions = !!currentBot
-  //   ? currentBot[0].botSession
-  //   : bots[0].botSession;
+  const botSessions = !!currentBot ? currentBot[0].botSession : [];
 
   const handleLinkClick = (type: string) => {
     if (type === "settings") {
@@ -57,6 +56,14 @@ const ClientWrapper = ({
   const handleNewBot = async () => {
     try {
       onOpen("createAI");
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handleViewSessions = async (sessionID: string) => {
+    try {
+      await dispatch(sessionID as string);
     } catch (error) {
       console.log(error);
     }
@@ -85,7 +92,10 @@ const ClientWrapper = ({
     <div className="h-[740px] w-full flex items-center justify-center gap-4 flex-col md:flex-row">
       {/* Side bar */}
       <div className="w-full md:w-[20%] h-full bg-[#333] ">
-        <h2 className="text-xl font-bold p-2 underline">{user.username}</h2>
+        <h2 className="text-xl font-bold p-2 underline">
+          Hello, {user.username}
+        </h2>
+
         <div className="flex items-center flex-col">
           <button
             onClick={() => handleLinkClick("settings")}
@@ -93,12 +103,14 @@ const ClientWrapper = ({
           >
             profile
           </button>
+
           <button
             onClick={() => handleLinkClick("edit")}
             className="bg-[#111] hover:bg-[#222] p-2 w-full text-center text-md"
           >
             edit
           </button>
+
           <button
             onClick={() => handleLinkClick("bot")}
             className="bg-[#111] hover:bg-[#222] p-2 w-full text-center text-md"
@@ -165,6 +177,10 @@ const ClientWrapper = ({
               </div>
             </div>
           )}
+
+          <div>
+            <h2>Membership</h2>
+          </div>
         </div>
       )}
 
@@ -237,6 +253,7 @@ const ClientWrapper = ({
                       </div>
                     </div>
 
+                    {/* Bot sessions */}
                     <div className="w-full h-[400px] bg-[#555] p-4">
                       {currentBot[0]?.botSession.length > 0 ? (
                         <div className="w-full h-full">
@@ -269,6 +286,7 @@ const ClientWrapper = ({
                                 <Link
                                   href="/sessions"
                                   className="absolute text-sm p-1 bg-[#222] font-bold  bottom-0 right-0 hover:bg-[#111] rounded-sm"
+                                  onClick={() => handleViewSessions(item._id)}
                                 >
                                   view session
                                 </Link>
@@ -296,8 +314,6 @@ const ClientWrapper = ({
           </div>
         </div>
       )}
-
-
     </div>
   );
 };
