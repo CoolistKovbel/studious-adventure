@@ -1,27 +1,14 @@
 import Image from "next/image";
 import Link from "next/link";
-import { Carousel } from "../components/carosal";
+import { ImagesSliderDemo } from "../components/landingPage/image-slider";
 
 export default function Home() {
 
-  const aiImages = [
-    {
-      url: "/bbS.png"
-    },
-    {
-      url: "/forged.png"
-    },
-    {
-      url: "/pp.jpg"
-    }
-  ]
-
-
   return (
-    <main className="w-full min-h-screen bg-[#999] text-color">
+    <main className="w-full min-h-screen bg-[#999] text-color dark:bg-black bg-white  dark:bg-grid-white/[0.2] bg-grid-black/[0.2] relative flex items-center justify-center flex-col">
 
       {/* Stupid header  */}
-      <header className="flex items-center justify-between p-4">
+      <header className="flex items-center justify-between p-4 w-full bg-[#999]">
 
         <nav className="flex items-center gap-4 w-full justify-between ">
           <div className="w-[15%] flex items-center justify-between">
@@ -32,8 +19,8 @@ export default function Home() {
 
 
           <div className="flex items-center">
-            <h1 className="font-bold text-xl">deLeftHand</h1>
-            <Image src="/ai-server-logo.png" alt="server ai logo" width={100} height={100} />
+            <h1 className="font-bold text-xl">Mindcraft AI</h1>
+            <Image src="/test02.png" alt="server ai logo" width={100} height={100} />
            </div>
 
 
@@ -47,20 +34,23 @@ export default function Home() {
 
       </header>
 
+      {/* Hero 1 */}
+      <div className="w-full h-[720px] p-3 bg-[#333] flex items-center justify-around my-10 flex-col md:flex-row">
 
-      <div className="w-full h-[720px] p-3 bg-[#333] flex items-center justify-around my-10">
-
-        <div className="text-center"> 
-          <h2 className="text-2xl md:text-4xl font-bold capitalize mb-2">Tired of looking when the answer is right in front you?</h2>
-          <p className="text-md text-gray-500 mb-4">Get started today with your own bot or assistant</p>
+        <div className="text-center w-[30%]"> 
+          <h2 className="text-2xl md:text-6xl font-bold capitalize mb-2">Tired of looking when the answer is right in front you?</h2>
+          <p className="text-md md:text-lg text-gray-500 mb-4">Get started today with your own bot or assistant</p>
           <Link href="/register" className="p-2 bg-[#111] hover:bg-[#222] rounded-md font-bold drop-shadow-lg inline-block">Get Started now</Link>
         </div>
-
-        <Carousel images={aiImages} />
+        
+        <div className="w-[50%]">
+          <ImagesSliderDemo />
+        </div>
 
       </div>
 
 
+      {/* hero 2 */}
       <div className="w-full h-[720px] p-3 bg-[#333] flex items-center justify-around my-10">
 
         <div className="text-center w-[35%]">
@@ -81,6 +71,7 @@ export default function Home() {
 
 
       </div>
+
 
     </main>
   );

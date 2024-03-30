@@ -12,12 +12,15 @@
     "bcryptjs": "^2.4.3",
     "clsx": "^2.1.0",
     "ethers": "^5.7.2",
+    "framer-motion": "^11.0.24",
     "iron-session": "^8.0.1",
+    "mini-svg-data-uri": "^1.4.4",
     "mongoose": "^8.2.3",
     "next": "14.1.4",
     "nodemailer": "^6.9.13",
     "react": "^18",
     "react-dom": "^18",
+    "tailwind-merge": "^2.2.2",
     "zustand": "^4.5.2"
   },
   "devDependencies": {

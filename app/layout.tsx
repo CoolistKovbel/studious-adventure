@@ -1,13 +1,13 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+
 import "./globals.css";
 import { ModalProvider } from "./providers/model-provider";
-
-const inter = Inter({ subsets: ["latin"] });
+import { roboto_mono } from "./components/ui/fonts";
 
 export const metadata: Metadata = {
-  title: "AI Service Page",
-  description: "Home to your sessions for the tasks you needed help with.",
+  title: "Mindcraft AI",
+  description:
+    "Mindcraft AI is your ultimate AI workbench, empowering users to seamlessly craft intelligent solutions for a wide range of tasks. From creating chat sessions to scraping data, generating images, and offering assistance for projects, work, learning, and school, Mindcraft AI provides a versatile platform for innovation and productivity. With intuitive tools and cutting-edge technology, Mindcraft AI transforms ideas into reality, helping users unlock their full potential in the digital realm.",
 };
 
 export default function RootLayout({
@@ -17,10 +17,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={inter.className}>
+      <body className={roboto_mono.className}>
         {children}
         <ModalProvider />
-        </body>
+      </body>
     </html>
   );
 }

@@ -24,6 +24,7 @@ const ClientWrapper = ({
 
   const [botId, setBotId] = useState("");
   const searchParams = useSearchParams();
+  
   const selectedBotRef = useRef<any>(null);
   const { onOpen } = useModal();
 
@@ -33,9 +34,9 @@ const ClientWrapper = ({
   const bots = JSON.parse(userBots);
   const currentBot = !!currenUserBot ? JSON.parse(currenUserBot) : bots[0];
 
-  const botSessions = !!currentBot
-    ? currentBot[0].botSession
-    : bots[0].botSession;
+  // const botSessions = !!currentBot
+  //   ? currentBot[0].botSession
+  //   : bots[0].botSession;
 
   const handleLinkClick = (type: string) => {
     if (type === "settings") {
@@ -296,7 +297,7 @@ const ClientWrapper = ({
         </div>
       )}
 
-      
+
     </div>
   );
 };
