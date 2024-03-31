@@ -1,3 +1,5 @@
+"use server"
+
 import { Bot } from "../models/Bot";
 import { BotBaby } from "../models/BotBaby";
 import { getSession, handleSessionUpdate } from "./actions";

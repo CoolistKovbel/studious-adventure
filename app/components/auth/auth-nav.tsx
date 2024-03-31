@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useState } from "react";
 import LogoutButton from "./logoutbutton";
+import TokenFaucet from "./token-faucet";
 
 interface AuthNavProps{
   currrentSession: any;
@@ -58,12 +59,12 @@ const AuthNav = ({currrentSession}:AuthNavProps) => {
       <div className="flex items-center justify-between w-[300px] float-right">
         <span>tokens: 0</span>
         <span>calls: 0</span>
-        <span>claim: 0</span>
+
+        <TokenFaucet />
+
       </div>
 
       
-
-
     </header>
   );
 };

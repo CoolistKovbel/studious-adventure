@@ -88,8 +88,8 @@ const Page = async () => {
     },
   ];
 
-  console.log(currentUser, "the current bab");
-
+  console.log(currentUser, "User in the sesssions page")
+                   
   return (
     <main className="w-full min-h-screen bg-[#222] flex p-2">
       {currentUser?.mainBot ? (

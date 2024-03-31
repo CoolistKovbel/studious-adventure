@@ -63,7 +63,7 @@ export const metaLogin = async (
   formData: FormData
 ) => {
   const { signature } = Object.fromEntries(formData);
-  const session = await getSession()
+  const session = await getSession();
 
   try {
     await dbConnect();
@@ -78,7 +78,7 @@ export const metaLogin = async (
     if (userAddress !== userExist.metaAddress) return "Sorry address not right";
 
     // verify signature dumbass
-    console.log(userAddress)
+    console.log(userAddress);
 
     session.userId = userExist._id.toString();
     session.username = userExist.username;
@@ -86,7 +86,7 @@ export const metaLogin = async (
     session.isPro = userExist.isPro;
     session.role = userExist.role;
     session.metaAccount = userExist.metaAddress;
-    session.metaSignSignature = signature as string
+    session.metaSignSignature = signature as string;
     session.tokens = Number(userExist.tokens);
     session.count = Number(userExist.count);
 
@@ -242,9 +242,9 @@ export async function handleUserSignInSignature(sig: string) {
       signature: sig,
     });
 
-    userSession.metaSignSignature = sig as string
+    userSession.metaSignSignature = sig as string;
 
-    await userSession.save()
+    await userSession.save();
 
     return "success";
   } catch (error) {
@@ -292,7 +292,7 @@ export async function createAIBOT(
 
     await User.findByIdAndUpdate(
       currentSession.userId as string,
-      {$push: {mainBot: newBot._id} },
+      { $push: { mainBot: newBot._id } },
       {
         runValidators: true,
       }
@@ -381,5 +381,28 @@ export async function handleSessionUpdate(
   } catch (error) {
     console.log(error);
     return "sorry couldnt switch sessions";
+  }
+}
+
+export async function handleBotUpdate(
+  prevState: string | object | undefined,
+  formData: string
+) {
+
+  const currentUser = await getSession();
+
+  try {
+    console.log(formData);
+
+    currentUser.mainBot = formData;
+
+    await currentUser.save();
+    
+    revalidatePath("/settings?type=bot");
+
+    return "success";
+  } catch (error) {
+    console.log(error);
+    return "Sorry couldnt update bot";
   }
 }
