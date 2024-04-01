@@ -12,6 +12,7 @@ import {
 import Image from "next/image";
 
 const Page = async () => {
+
   let currentBabyBot: any = [];
   let currentSessionType: any;
 
@@ -94,6 +95,7 @@ const Page = async () => {
     <main className="w-full min-h-screen bg-[#222] flex p-2">
       {currentUser?.mainBot ? (
         <section className="w-full bg-[#111] flex items-start flex-col gap-4 ">
+          
           <header className="w-full p-4">
             <h2 className="text-2xl font-bold mb-4">Current Bot: </h2>
 
@@ -547,6 +549,7 @@ const Page = async () => {
               <CreateToggle hasBot={passable} />
             </article>
           )}
+
         </section>
       ) : (
         <section className="w-full bg-[#111] h-[400px] flex items-center flex-col justify-center gap-4">

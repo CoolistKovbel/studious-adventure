@@ -2,14 +2,15 @@ import Image from "next/image";
 import Link from "next/link";
 import { GlobeDemo } from "../components/landingPage/ggloble";
 import { ThreeDCard } from "../components/landingPage/3d-card";
+import Droppings from "../components/droping";
 
 export default function Home() {
   return (
-<main className="w-full min-h-screen bg-[#999] text-color dark:bg-black bg-white dark:bg-grid-white/[0.2] bg-grid-black/[0.2] relative flex items-center justify-center flex-col">
+    <main className="w-full min-h-screen bg-[#999] text-color dark:bg-black bg-white dark:bg-grid-white/[0.2] bg-grid-black/[0.2] relative flex items-center justify-center flex-col">
       {/* Stupid header */}
       <header className="flex items-center justify-between p-4 w-full bg-[#999]">
         <nav className="flex items-center gap-4 w-full justify-between">
-          <div className="w-[15%] flex items-center justify-between ">
+          <div className="w-[15%] hidden md:flex items-center justify-between ">
             <Link
               href="/about"
               className="p-2 bg-[#222] rounded-md font-bold drop-shadow-lg"
@@ -29,6 +30,7 @@ export default function Home() {
               Faucet
             </Link>
           </div>
+
           <div className="flex items-center">
             <h1 className="font-bold text-xl md:text-2xl">Mindcraft AI</h1>
             <div className="hidden md:block">
@@ -40,13 +42,15 @@ export default function Home() {
               />
             </div>
           </div>
-          <div className="w-[10%] flex items-center justify-between">
+
+          <div className="w-[10%] hidden md:flex items-center justify-between">
             <Link
               href="/login"
               className="p-2 bg-[#333] mr-2 rounded-md font-bold drop-shadow-lg"
             >
               Login
             </Link>
+
             <Link
               href="/register"
               className="p-2 bg-[#333] rounded-md font-bold drop-shadow-lg"
@@ -54,14 +58,15 @@ export default function Home() {
               Register
             </Link>
           </div>
+          {/* Oo0 */}
+          <Droppings />
         </nav>
       </header>
 
       {/* Hero 1 */}
       <div className="w-full h-[720px] p-3 bg-[#333] flex items-center justify-around my-10 flex-col md:flex-row">
-
         <div className="text-center w-full md:w-[30%]">
-          <h2 className="text-2xl md:text-6xl font-bold capitalize mb-2">
+          <h2 className="text-3xl md:text-6xl font-bold capitalize mb-2">
             Tired of looking when the answer is right in front you?
           </h2>
           <p className="text-md md:text-lg text-gray-500 mb-4">
@@ -80,9 +85,8 @@ export default function Home() {
 
       {/* hero 2 */}
       <div className="w-full h-full md:h-[420px] p-10 md:p-3 bg-[#333] flex items-center justify-center my-10 gap-10 flex-col md:flex-row">
-
         <div className="text-center w-full md:w-[35%]">
-          <h2 className="text-2xl md:text-4xl font-bold mb-4">
+          <h2 className="text-3xl md:text-4xl font-bold mb-4">
             The perfect tool for those who want to be more studius
           </h2>
           <p className="mb-3">
@@ -122,7 +126,6 @@ export default function Home() {
             </p>
           </div>
         </div>
-
       </div>
 
       {/* Features */}
@@ -166,7 +169,6 @@ export default function Home() {
           </header>
           <div className="w-full md:w-[300px] h-[300px] bg-[#141]"></div>
         </article>
-
       </section>
 
       <footer className="w-full bg-[#111] text-white pt-4 border-t border-gray-200">
@@ -220,7 +222,6 @@ export default function Home() {
           </p>
         </div>
       </footer>
-
     </main>
   );
 }
